@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +54,13 @@ public class Journeys extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        ScrollView journeysScrollView = getView().findViewById(R.id.frag_journeys_mainScrollView);
+        journeysScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+
+            }
+        });
     }
 
     @Override
@@ -60,5 +68,6 @@ public class Journeys extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_journeys, container, false);
+
     }
 }

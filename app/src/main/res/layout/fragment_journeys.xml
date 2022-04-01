@@ -1,14 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frag_journeys_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Journeys">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Journeys Fragment" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/frag_journeys_mainScrollView">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Elevated button"
+                style="@style/ThemeOverlay.Material3.Button.ElevatedButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filled button"
+                style="@style/Widget.Material3.Button"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filled button with Icon"
+                app:icon="@drawable/ic_baseline_create_24"
+                style="@style/Widget.Material3.Button.Icon"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tonal button"
+                style="@style/Widget.Material3.Button.TonalButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Outlined button"
+                style="@style/Widget.Material3.Button.OutlinedButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text button"
+                style="@style/Widget.Material3.Button.TextButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Elevated button"
+                style="@style/ThemeOverlay.Material3.Button.ElevatedButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filled button"
+                style="@style/Widget.Material3.Button"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filled button with Icon"
+                app:icon="@drawable/ic_baseline_create_24"
+                style="@style/Widget.Material3.Button.Icon"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tonal button"
+                style="@style/Widget.Material3.Button.TonalButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Outlined button"
+                style="@style/Widget.Material3.Button.OutlinedButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text button"
+                style="@style/Widget.Material3.Button.TextButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Elevated button"
+                style="@style/ThemeOverlay.Material3.Button.ElevatedButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filled button"
+                style="@style/Widget.Material3.Button"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filled button with Icon"
+                app:icon="@drawable/ic_baseline_create_24"
+                style="@style/Widget.Material3.Button.Icon"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tonal button"
+                style="@style/Widget.Material3.Button.TonalButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Outlined button"
+                style="@style/Widget.Material3.Button.OutlinedButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text button"
+                style="@style/Widget.Material3.Button.TextButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Elevated button"
+                style="@style/ThemeOverlay.Material3.Button.ElevatedButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filled button"
+                style="@style/Widget.Material3.Button"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filled button with Icon"
+                app:icon="@drawable/ic_baseline_create_24"
+                style="@style/Widget.Material3.Button.Icon"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tonal button"
+                style="@style/Widget.Material3.Button.TonalButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Outlined button"
+                style="@style/Widget.Material3.Button.OutlinedButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text button"
+                style="@style/Widget.Material3.Button.TextButton"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extended_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/frag_journeys_fab_newjourney"
+        android:text="@string/frag_journeys_fab_newjourney"
+        app:icon="@drawable/ic_baseline_create_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

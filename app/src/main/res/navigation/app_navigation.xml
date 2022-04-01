@@ -13,11 +13,11 @@
     <fragment
         android:id="@+id/fragment_live_trains"
         android:name="uk.ac.abertay.s1902765.nexttrain.LiveTrains"
-        android:label="fragment_live_trains"
+        android:label="@string/home_livetrains"
         tools:layout="@layout/fragment_live_trains" />
     <fragment
         android:id="@+id/fragment_profile"
         android:name="uk.ac.abertay.s1902765.nexttrain.Profile"
-        android:label="fragment_profile"
+        android:label="@string/home_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
