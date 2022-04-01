@@ -2,12 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/fragment_journeys"
         android:icon="@drawable/baseline_route_24"
         android:title="@string/home_journeys" />
     <item
+        android:id="@+id/fragment_live_trains"
         android:icon="@drawable/baseline_train_24"
         android:title="@string/home_livetrains" />
     <item
+        android:id="@+id/fragment_profile"
         android:icon="@drawable/baseline_person_24"
         android:title="@string/home_profile" />
 </menu>

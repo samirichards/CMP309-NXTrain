@@ -3,42 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/liveTrains">
+    app:startDestination="@id/fragment_live_trains">
 
     <fragment
-        android:id="@+id/journeys"
+        android:id="@+id/fragment_journeys"
         android:name="uk.ac.abertay.s1902765.nexttrain.Journeys"
-        android:label="fragment_journeys"
+        android:label="@string/home_journeys"
         tools:layout="@layout/fragment_journeys" />
     <fragment
-        android:id="@+id/liveTrains"
+        android:id="@+id/fragment_live_trains"
         android:name="uk.ac.abertay.s1902765.nexttrain.LiveTrains"
         android:label="fragment_live_trains"
         tools:layout="@layout/fragment_live_trains" />
     <fragment
-        android:id="@+id/profile"
+        android:id="@+id/fragment_profile"
         android:name="uk.ac.abertay.s1902765.nexttrain.Profile"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
-    <action
-        android:id="@+id/action_global_journeys"
-        app:destination="@id/journeys"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    <action
-        android:id="@+id/action_global_liveTrains"
-        app:destination="@id/liveTrains"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    <action
-        android:id="@+id/action_global_profile"
-        app:destination="@id/profile"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 </navigation>
