@@ -54,13 +54,7 @@ public class Journeys extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        ScrollView journeysScrollView = getView().findViewById(R.id.frag_journeys_mainScrollView);
-        journeysScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
 
-            }
-        });
     }
 
     @Override
