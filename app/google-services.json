@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "109549341391",
+    "project_id": "cmp309-nexttrain",
+    "storage_bucket": "cmp309-nexttrain.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109549341391:android:55636a70408b05b2de45ba",
+        "android_client_info": {
+          "package_name": "uk.ac.abertay.s1902765.nexttrain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109549341391-8u5n93ej9f09qpfb13get038ed6clurq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTDkeExkpfuipqRD_vl54onTfH2pUTSpY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109549341391-8u5n93ej9f09qpfb13get038ed6clurq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
