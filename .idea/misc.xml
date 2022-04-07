@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/samir/Documents/AndroidDev/CMP309/CMP309-NXTrain/app/src/main/res/layout/activity_build_database.xml" value="0.259375" />
+        <entry key="..\:/Users/samir/Documents/AndroidDev/CMP309/CMP309-NXTrain/app/src/main/res/layout/fragment_profile.xml" value="0.259375" />
+        <entry key="..\:/Users/samir/Documents/AndroidDev/CMP309/CMP309-NXTrain/app/src/main/res/layout/settings_activity.xml" value="0.259375" />
+        <entry key="..\:/Users/samir/Documents/AndroidDev/CMP309/CMP309-NXTrain/app/src/main/res/xml/root_preferences.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/samir/StudioProjects/CMP309-NXTrain/app/src/main/res/layout/activity_main.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/samir/StudioProjects/CMP309-NXTrain/app/src/main/res/layout/fragment_journeys.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/samir/StudioProjects/CMP309-NXTrain/app/src/main/res/layout/journeys_item_template.xml" value="0.24818840579710144" />
