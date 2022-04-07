@@ -12,6 +12,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.JsonReader;
 import android.util.Log;
+import android.util.Xml;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -32,6 +34,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +47,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Dictionary;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -87,6 +92,12 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                         try {
                             downloadStationsXML();
                             stationsDoc = loadStationsFromStorage();
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "Operation completed", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         } catch (IOException e) {
                             handler.post(new Runnable() {
                                 @Override
@@ -159,23 +170,39 @@ public class BuildDatabaseActivity extends AppCompatActivity {
      */
     protected Document loadStationsFromStorage() throws IOException, SAXException, ParserConfigurationException {
 
-        FileInputStream fis = new FileInputStream(new File(getFilesDir(), "stations.xml"));
-        BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+        File stationsFile = new File(getApplicationContext().getFilesDir() + "/stations.xml");
+        stationsFile.setReadable(true);
+        Log.println(Log.INFO, "Stations file size", String.valueOf(stationsFile.length()));
+        FileReader fileReader = new FileReader(stationsFile);
+        BufferedReader readBuffer = new BufferedReader(fileReader);
         StringBuilder data = new StringBuilder();
-        String line;
+        String line = null;
         handler.post(new Runnable() {
             @Override
             public void run() {
                 LinearProgressIndicator progressIndicator = findViewById(R.id.buildingDatabase_progressIndicator);
-                progressIndicator.setIndeterminate(false);
+                progressIndicator.setIndeterminate(true);
                 progressIndicator.setProgress(0);
             }
         });
 
-        float exactProgress = 0.0F;
-        float exactProgressInterval = 100 / reader.lines().count();
-        int currentProgress = 0;
-        while ((line = reader.readLine()) != null) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                TextView helperText = findViewById(R.id.buildingDatabase_currentActionTextView);
+                helperText.setText("Reading stations data from file");
+            }
+        });
+
+        int r;
+        while ((r = readBuffer.read()) != -1) {
+            char c = (char) r;
+            data.append(c);
+        }
+        line = data.toString();
+
+        /*
+        while ((line = readBuffer.readLine()) != null) {
             data.append(line+"\n");
             exactProgress += exactProgressInterval;
             currentProgress = Math.round(exactProgress);
@@ -187,20 +214,28 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                     progressIndicator.setProgress(finalCurrentProgress);
                 }
             });
-        }
-        reader.close();
-        fis.close();
 
+        }
+         */
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document d1 = builder.parse(new InputSource(new StringReader(data.toString())));
+        InputSource is = new InputSource(new StringReader(line));
         handler.post(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(getApplicationContext(), "stations.xml read from filesystem", Toast.LENGTH_SHORT).show();
+                TextView helperText = findViewById(R.id.buildingDatabase_currentActionTextView);
+                helperText.setText("Parsing stations xml data");
             }
         });
-        return d1;
+        Document temp = builder.parse(is);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "Document type is: " + temp.getDoctype().getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        return builder.parse(is);
     }
 
     /**
@@ -223,6 +258,14 @@ public class BuildDatabaseActivity extends AppCompatActivity {
             }
             http.setRequestProperty("X-Auth-Token", serverToken);
 
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    TextView helperText = findViewById(R.id.buildingDatabase_currentActionTextView);
+                    helperText.setText("Sending request for stations data");
+                }
+            });
+
 
             if (http.getResponseCode() == HttpURLConnection.HTTP_OK){
                 handler.post(new Runnable() {
@@ -234,27 +277,25 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                     }
                 });
 
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView helperText = findViewById(R.id.buildingDatabase_currentActionTextView);
+                        helperText.setText("Storing stations data");
+                    }
+                });
+
                 try {
                     FileOutputStream fos = new FileOutputStream(new File(getFilesDir(), "stations.xml"));
                     BufferedReader br = new BufferedReader(new InputStreamReader(http.getInputStream()));
                     String line;
 
-                    float exactProgress = 0.0F;
-                    float exactProgressInterval = 100 / br.lines().count();
-                    int currentProgress = 0;
+                    //float exactProgress = 0.0F;
+                    //float exactProgressInterval = 100 / br.lines().count();
+                    //int currentProgress = 0;
 
-                    while ((line = br.readLine()) != null) {
+                    for (line = br.readLine(); line != null; line = br.readLine()) {
                         fos.write(line.getBytes(StandardCharsets.UTF_8));
-                        exactProgress += exactProgressInterval;
-                        currentProgress = Math.round(exactProgress);
-                        int finalCurrentProgress = currentProgress;
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                LinearProgressIndicator progressIndicator = findViewById(R.id.buildingDatabase_progressIndicator);
-                                progressIndicator.setProgress(finalCurrentProgress);
-                            }
-                        });
                     }
                     fos.flush();
                     fos.close();
@@ -298,6 +339,15 @@ public class BuildDatabaseActivity extends AppCompatActivity {
      * @return
      */
     protected int getServerToken(){
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                TextView helperText = findViewById(R.id.buildingDatabase_currentActionTextView);
+                helperText.setText("Fetching token from server");
+            }
+        });
+
         URL url = null;
         try {
             url = new URL("https://opendata.nationalrail.co.uk/authenticate");
