@@ -1,75 +1,36 @@
 package uk.ac.abertay.s1902765.nexttrain;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.JsonReader;
-import android.util.Log;
-import android.util.Xml;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.progressindicator.LinearProgressIndicator;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.w3c.dom.Document;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.ext.DefaultHandler2;
-import org.xml.sax.helpers.DefaultHandler;
-import org.xmlpull.v1.builder.XmlDocument;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
 
 public class BuildDatabaseActivity extends AppCompatActivity {
 
@@ -171,86 +132,52 @@ public class BuildDatabaseActivity extends AppCompatActivity {
 
     }
 
+    protected boolean loadStationsIntoSqlCache(){
+
+        //TODO Make use of the Room Database to insert each station into the stations table
+
+        return true;
+    }
 
     /**
      * Fetches the stations.xml document from local storage if there is one present
      * @return XML document from local storage, Null if one was not present
      */
     protected Document loadStationsFromStorage() throws IOException, SAXException, ParserConfigurationException {
-
-        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-        SAXParser saxParser = null;
-        ArrayList temp = null;
-        List<HashMap<Object, Object>> stationList = null;
-        try {
-            saxParser = saxParserFactory.newSAXParser();
-            DefaultHandler handler = new DefaultHandler() {
-                String currentValue = "";
-                boolean currentElement = false;
-                HashMap<Object, Object> station;
-                public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-                    currentElement = true;
-                    currentValue = "";
-                    if (localName.equals("Station")) {
-                        station = new HashMap<>();
-                    }
-                }
-
-                public void endElement(String uri, String localName, String qName) throws SAXException {
-                    currentElement = false;
-                    if (localName.equalsIgnoreCase("CrsCode"))
-                        station.put("CrsCode", currentValue);
-                    else if (localName.equalsIgnoreCase("AlternativeIdentifiers"))
-                        station.put("AlternativeIdentifiers", currentValue);
-                    else if (localName.equalsIgnoreCase("NationalLocationCode"))
-                        station.put("NationalLocationCode", currentValue);
-                    else if (localName.equalsIgnoreCase("Name"))
-                        station.put("Name", currentValue);
-                    else if (localName.equalsIgnoreCase("SixteenCharacterName"))
-                        station.put("SixteenCharacterName", currentValue);
-                    else if (localName.equalsIgnoreCase("Longitude"))
-                        station.put("Longitude", currentValue);
-                    else if (localName.equalsIgnoreCase("Latitude"))
-                        station.put("Latitude", currentValue);
-                    else if (localName.equalsIgnoreCase("StationOperator"))
-                        station.put("StationOperator", currentValue);
-                    else if (localName.equalsIgnoreCase("Station"))
-                        stationList.add(station);
-                }
-            };
-
-            File fs=getApplicationContext().getFilesDir();
-            File stationsFile = new File(fs.getAbsoluteFile(),"stations.xml");
-            saxParser.parse(stationsFile, handler);
-            //This doesn't work still
-            //TODO - Fix this shit
-
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        }
+        //TODO Reimplement this from the ground up
         handler.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), "stations.xml read from filesystem", Toast.LENGTH_SHORT).show();
                 TextView helperText = findViewById(R.id.buildingDatabase_currentActionTextView);
-                helperText.setText("Parsing stations xml data");
+                helperText.setText("Loading Stations data");
+            }
+        });
+        FileInputStream in = new FileInputStream(new File(getApplicationContext().getFilesDir() + "/stations.xml"));
+        StringBuffer data = new StringBuffer();
+        InputStreamReader isr = new InputStreamReader(in);
+
+        BufferedReader inRd = new BufferedReader(isr);
+
+        String text;
+        while ((text = inRd.readLine()) != null) {
+            data.append(text);
+            data.append("\n");
+        }
+        in.close();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                TextView helperText = findViewById(R.id.buildingDatabase_currentActionTextView);
+                helperText.setText("Parsing stations data");
             }
         });
 
-        for (HashMap<Object, Object> stationItem : stationList) {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), stationItem.get("Name").toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+        // Build XML document
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
 
-        return null;
+        return db.parse(data.toString());
     }
 
     /**

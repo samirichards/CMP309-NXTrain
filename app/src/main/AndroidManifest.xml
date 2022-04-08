@@ -20,7 +20,9 @@
         </activity>
         <activity
             android:name=".BuildDatabaseActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <!--TODO Remove fixed screen orientation and make the activity just work regardless of rotation (use a viewmodel and such) -->
         <activity
             android:name=".MainActivity"
             android:exported="true">

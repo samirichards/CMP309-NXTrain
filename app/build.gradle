@@ -53,8 +53,6 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
     implementation 'com.squareup.retrofit2:converter-simplexml:2.9.0'
 
-
-
     // Java language implementation
     implementation 'androidx.navigation:navigation-fragment:2.4.1'
     implementation 'androidx.navigation:navigation-ui:2.4.1'
@@ -64,4 +62,16 @@ dependencies {
 
     // Testing Navigation
     androidTestImplementation 'androidx.navigation:navigation-testing:2.4.1'
+
+    implementation 'androidx.room:room-runtime:2.4.2'
+    annotationProcessor 'androidx.room:room-compiler:2.4.2'
+
+    // optional - RxJava2 support for Room
+    implementation 'androidx.room:room-rxjava2:2.4.2'
+
+    // optional - RxJava3 support for Room
+    implementation 'androidx.room:room-rxjava3:2.4.2'
+    // optional - Test helpers
+    testImplementation 'androidx.room:room-testing:2.4.2'
+
 }
