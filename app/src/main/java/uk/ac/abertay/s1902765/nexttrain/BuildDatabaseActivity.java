@@ -24,9 +24,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.w3c.dom.Document;
+import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import org.xml.sax.ext.DefaultHandler2;
+import org.xml.sax.helpers.DefaultHandler;
 import org.xmlpull.v1.builder.XmlDocument;
 
 import java.io.BufferedReader;
@@ -46,13 +49,18 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -170,56 +178,60 @@ public class BuildDatabaseActivity extends AppCompatActivity {
      */
     protected Document loadStationsFromStorage() throws IOException, SAXException, ParserConfigurationException {
 
-        File stationsFile = new File(getApplicationContext().getFilesDir() + "/stations.xml");
-        stationsFile.setReadable(true);
-        Log.println(Log.INFO, "Stations file size", String.valueOf(stationsFile.length()));
-        FileReader fileReader = new FileReader(stationsFile);
-        BufferedReader readBuffer = new BufferedReader(fileReader);
-        StringBuilder data = new StringBuilder();
-        String line = null;
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                LinearProgressIndicator progressIndicator = findViewById(R.id.buildingDatabase_progressIndicator);
-                progressIndicator.setIndeterminate(true);
-                progressIndicator.setProgress(0);
-            }
-        });
-
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                TextView helperText = findViewById(R.id.buildingDatabase_currentActionTextView);
-                helperText.setText("Reading stations data from file");
-            }
-        });
-
-        int r;
-        while ((r = readBuffer.read()) != -1) {
-            char c = (char) r;
-            data.append(c);
-        }
-        line = data.toString();
-
-        /*
-        while ((line = readBuffer.readLine()) != null) {
-            data.append(line+"\n");
-            exactProgress += exactProgressInterval;
-            currentProgress = Math.round(exactProgress);
-            int finalCurrentProgress = currentProgress;
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    LinearProgressIndicator progressIndicator = findViewById(R.id.buildingDatabase_progressIndicator);
-                    progressIndicator.setProgress(finalCurrentProgress);
+        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        SAXParser saxParser = null;
+        ArrayList temp = null;
+        List<HashMap<Object, Object>> stationList = null;
+        try {
+            saxParser = saxParserFactory.newSAXParser();
+            DefaultHandler handler = new DefaultHandler() {
+                String currentValue = "";
+                boolean currentElement = false;
+                HashMap<Object, Object> station;
+                public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+                    currentElement = true;
+                    currentValue = "";
+                    if (localName.equals("Station")) {
+                        station = new HashMap<>();
+                    }
                 }
-            });
 
+                public void endElement(String uri, String localName, String qName) throws SAXException {
+                    currentElement = false;
+                    if (localName.equalsIgnoreCase("CrsCode"))
+                        station.put("CrsCode", currentValue);
+                    else if (localName.equalsIgnoreCase("AlternativeIdentifiers"))
+                        station.put("AlternativeIdentifiers", currentValue);
+                    else if (localName.equalsIgnoreCase("NationalLocationCode"))
+                        station.put("NationalLocationCode", currentValue);
+                    else if (localName.equalsIgnoreCase("Name"))
+                        station.put("Name", currentValue);
+                    else if (localName.equalsIgnoreCase("SixteenCharacterName"))
+                        station.put("SixteenCharacterName", currentValue);
+                    else if (localName.equalsIgnoreCase("Longitude"))
+                        station.put("Longitude", currentValue);
+                    else if (localName.equalsIgnoreCase("Latitude"))
+                        station.put("Latitude", currentValue);
+                    else if (localName.equalsIgnoreCase("StationOperator"))
+                        station.put("StationOperator", currentValue);
+                    else if (localName.equalsIgnoreCase("Station"))
+                        stationList.add(station);
+                }
+            };
+
+            File fs=getApplicationContext().getFilesDir();
+            File stationsFile = new File(fs.getAbsoluteFile(),"stations.xml");
+            saxParser.parse(stationsFile, handler);
+            //This doesn't work still
+            //TODO - Fix this shit
+
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
         }
-         */
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        InputSource is = new InputSource(new StringReader(line));
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -228,14 +240,17 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                 helperText.setText("Parsing stations xml data");
             }
         });
-        Document temp = builder.parse(is);
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "Document type is: " + temp.getDoctype().getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        return builder.parse(is);
+
+        for (HashMap<Object, Object> stationItem : stationList) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), stationItem.get("Name").toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        return null;
     }
 
     /**
