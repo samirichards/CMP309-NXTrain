@@ -36,6 +36,9 @@ public interface StationsDao {
     @Query("SELECT * FROM stations")
     public List<StationItem> getAllStations();
 
+    @Query("SELECT Name FROM stations")
+    public List<String> getAllStationNames();
+
     @Query("SELECT * FROM stations")
     public LiveData<List<StationItem>> getAllStationsLive();
 

@@ -27,21 +27,42 @@
                 style="@style/Widget.Material3.AppBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:menu="@menu/livetrains_topappbarmenu"
                 app:title="@string/home_livetrains" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Change this to use a SearchViewActivity instead, makes it reusuable and allows you to return stuff from activities (which the spec wants)
+        https://developer.android.com/training/search/setup -->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/liveTrains_searchField"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Search Stations"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeActionLabel="Search"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:text="@={liveTrainsModel.stationSearchTerm}"
+                android:textColorHint="#616161" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ListView
+            android:id="@+id/testListView"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-            android:id="@+id/mymum"
-            android:text="@{liveTrainsModel.testString}"/>
-
+            app:layout_constraintTop_toBottomOf="@+id/liveTrains_searchField"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

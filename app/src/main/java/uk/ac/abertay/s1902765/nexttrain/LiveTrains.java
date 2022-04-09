@@ -1,14 +1,19 @@
 package uk.ac.abertay.s1902765.nexttrain;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.SearchView;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import java.util.List;
 
 import uk.ac.abertay.s1902765.nexttrain.databinding.FragmentLiveTrainsBinding;
 
@@ -17,6 +22,7 @@ public class LiveTrains extends Fragment {
 
     private LiveTrains_Model liveTrainsModel;
     private FragmentLiveTrainsBinding binding;
+    private SearchView liveTrainsSearchView;
 
     public LiveTrains() {
         // Required empty public constructor
@@ -31,9 +37,13 @@ public class LiveTrains extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentLiveTrainsBinding.inflate(inflater, container, false);
+        //Forgot to add this one line, viewmodels now work correctly
+        binding.setLiveTrainsModel(liveTrainsModel);
         View view = binding.getRoot();
+
+        final CustomTestAdapter adapter = new CustomTestAdapter(this, liveTrainsModel.stations.getValue());
+        binding.testListView.setAdapter(adapter);
         return view;
-        //TODO make the databinding work properly
     }
 
     @Override
@@ -42,3 +52,4 @@ public class LiveTrains extends Fragment {
         binding = null;
     }
 }
+
