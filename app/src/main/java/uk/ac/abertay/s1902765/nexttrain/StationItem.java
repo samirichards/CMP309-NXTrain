@@ -11,22 +11,26 @@ import androidx.room.PrimaryKey;
 @Fts4
 @Entity(tableName = "stations")
 public class StationItem {
-
-    //Primary key must be int for the sake of rapid searching
-    @PrimaryKey
-    @ColumnInfo(name = "rowid")
-    public int id;
-
     public String CrsCode;
 
     public String Name;
     public String SixteenCharacterName;
 
-    //This will contain the longitude and latitude of the stations
-    //Nvm this will need to be broken up into separate parts
-    //Room doesn't support complex types
     @Nullable
-    public Address LocationAddress;
+    public String Postcode;
+    @Nullable
+    public String AddressLine1;
+    @Nullable
+    public String AddressLine2;
+    @Nullable
+    public String AddressLine3;
+    @Nullable
+    public String AddressLine4;
+    @Nullable
+    public String AddressLine5;
+
+    public double Longitude;
+    public double Latitude;
 
     public String StationOperator;
 

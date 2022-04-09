@@ -30,9 +30,15 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     ndkVersion '25.0.8221429 rc2'
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
 }
 
 dependencies {
+
+    implementation 'androidx.fragment:fragment-ktx:1.4.1'
 
     implementation platform('com.google.firebase:firebase-bom:29.2.1')
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -54,14 +60,14 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-simplexml:2.9.0'
 
     // Java language implementation
-    implementation 'androidx.navigation:navigation-fragment:2.4.1'
-    implementation 'androidx.navigation:navigation-ui:2.4.1'
+    implementation 'androidx.navigation:navigation-fragment:2.4.2'
+    implementation 'androidx.navigation:navigation-ui:2.4.2'
 
     // Dynamic Feature Module Support
-    implementation 'androidx.navigation:navigation-dynamic-features-fragment:2.4.1'
+    implementation 'androidx.navigation:navigation-dynamic-features-fragment:2.4.2'
 
     // Testing Navigation
-    androidTestImplementation 'androidx.navigation:navigation-testing:2.4.1'
+    androidTestImplementation 'androidx.navigation:navigation-testing:2.4.2'
 
     implementation 'androidx.room:room-runtime:2.4.2'
     annotationProcessor 'androidx.room:room-compiler:2.4.2'

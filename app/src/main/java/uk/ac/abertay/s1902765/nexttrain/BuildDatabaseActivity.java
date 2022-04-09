@@ -1,19 +1,25 @@
 package uk.ac.abertay.s1902765.nexttrain;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.BufferedReader;
@@ -60,28 +66,31 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                         });
                         try {
                             downloadStationsXML();
-                            stationsDoc = loadStationsFromStorage();
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getApplicationContext(), "Operation completed", Toast.LENGTH_SHORT).show();
-                                }
-                            });
                         } catch (IOException e) {
+                            e.printStackTrace();
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(getApplicationContext(), "Error downloading stations data", Toast.LENGTH_SHORT).show();
-                                    finish();
+                                    Toast.makeText(getApplicationContext(), "Error downloading stations", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                        } catch (ParserConfigurationException e) {
+                        }
+                        try {
+                            loadStationsIntoSqlCache();
+                        } catch (IOException e) {
                             e.printStackTrace();
-                            finish();
                         } catch (SAXException e) {
                             e.printStackTrace();
-                            finish();
+                        } catch (ParserConfigurationException e) {
+                            e.printStackTrace();
                         }
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "Operation completed", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
                     }
                     break;
                     case -1: {
@@ -132,53 +141,79 @@ public class BuildDatabaseActivity extends AppCompatActivity {
 
     }
 
-    protected boolean loadStationsIntoSqlCache(){
+    protected boolean loadStationsIntoSqlCache() throws IOException, SAXException, ParserConfigurationException {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                TextView helperText = findViewById(R.id.buildingDatabase_currentActionTextView);
+                helperText.setText("Loading Stations data");
+                LinearProgressIndicator progressIndicator = findViewById(R.id.buildingDatabase_progressIndicator);
+                progressIndicator.setIndeterminate(false);
+            }
+        });
+        Context context = getApplicationContext();
+        AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+        db.clearAllTables();
+        //Clear everything initially
+
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document document = documentBuilder.parse(new File(getApplicationContext().getFilesDir() + "/stations.xml"));
+        NodeList stations = document.getElementsByTagName("Station");
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                LinearProgressIndicator progressIndicator = findViewById(R.id.buildingDatabase_progressIndicator);
+                progressIndicator.setMax(stations.getLength());
+            }
+        });
+        for (int i = 0; i < stations.getLength(); i++){
+            Node station = stations.item(i);
+            int finalI = i;
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    LinearProgressIndicator progressIndicator = findViewById(R.id.buildingDatabase_progressIndicator);
+                    progressIndicator.setProgress(finalI);
+                }
+            });
+            if (station.getNodeType() == Node.ELEMENT_NODE)
+            {
+                Element stationElement = (Element) station;
+                StationItem db_stationItem = new StationItem();
+                db_stationItem.Name = stationElement.getElementsByTagName("Name").item(0).getTextContent();
+                db_stationItem.CrsCode = stationElement.getElementsByTagName("CrsCode").item(0).getTextContent();
+                db_stationItem.SixteenCharacterName = stationElement.getElementsByTagName("SixteenCharacterName").item(0).getTextContent();
+                db_stationItem.Latitude = Double.parseDouble(stationElement.getElementsByTagName("Latitude").item(0).getTextContent());
+                db_stationItem.Longitude = Double.parseDouble(stationElement.getElementsByTagName("Longitude").item(0).getTextContent());
+                db_stationItem.StationOperator = stationElement.getElementsByTagName("StationOperator").item(0).getTextContent();
+                db_stationItem.ClosedCircuitTelevision = Boolean.parseBoolean(stationElement.getElementsByTagName("Staffing").item(0).getChildNodes().item(1).getChildNodes().item(0).getTextContent());
+                switch (stationElement.getElementsByTagName("Staffing").item(0).getChildNodes().item(0).getTextContent()){
+                    case "fullTime":
+                        db_stationItem.StaffingLevel = 2;
+                        break;
+                    case "partTime":
+                        db_stationItem.StaffingLevel = 1;
+                        break;
+                    case "unstaffed":
+                        db_stationItem.StaffingLevel = 0;
+                        break;
+
+                }
+                //TODO Addresses here
+                db.stationsDao().insertStation(db_stationItem);
+            }
+        }
+        for(StationItem item : db.stationsDao().getAllStations()){
+            Log.println(Log.INFO, "NXTrain DB Item", item.Name);
+        }
+        db.close();
+
 
         //TODO Make use of the Room Database to insert each station into the stations table
 
         return true;
     }
 
-    /**
-     * Fetches the stations.xml document from local storage if there is one present
-     * @return XML document from local storage, Null if one was not present
-     */
-    protected Document loadStationsFromStorage() throws IOException, SAXException, ParserConfigurationException {
-        //TODO Reimplement this from the ground up
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                TextView helperText = findViewById(R.id.buildingDatabase_currentActionTextView);
-                helperText.setText("Loading Stations data");
-            }
-        });
-        FileInputStream in = new FileInputStream(new File(getApplicationContext().getFilesDir() + "/stations.xml"));
-        StringBuffer data = new StringBuffer();
-        InputStreamReader isr = new InputStreamReader(in);
-
-        BufferedReader inRd = new BufferedReader(isr);
-
-        String text;
-        while ((text = inRd.readLine()) != null) {
-            data.append(text);
-            data.append("\n");
-        }
-        in.close();
-
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                TextView helperText = findViewById(R.id.buildingDatabase_currentActionTextView);
-                helperText.setText("Parsing stations data");
-            }
-        });
-
-        // Build XML document
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-
-        return db.parse(data.toString());
-    }
 
     /**
      * Fetches the stations.xml document from the national rail server and stores it on device
@@ -214,8 +249,7 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         LinearProgressIndicator progressIndicator = findViewById(R.id.buildingDatabase_progressIndicator);
-                        progressIndicator.setIndeterminate(false);
-                        progressIndicator.setProgress(0);
+                        progressIndicator.setIndeterminate(true);
                     }
                 });
 

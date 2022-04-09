@@ -1,11 +1,16 @@
 package uk.ac.abertay.s1902765.nexttrain;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import java.util.List;
+
+import io.reactivex.Flowable;
 
 @Dao
 public interface StationsDao {
@@ -20,7 +25,7 @@ public interface StationsDao {
     public long insertStation(StationItem stationItem);
 
     @Update
-    public long updateStation(StationItem stationItem);
+    public int updateStation(StationItem stationItem);
 
     @Delete
     public int deleteStations(StationItem ... stationItems);
@@ -29,14 +34,23 @@ public interface StationsDao {
     public void deleteStation(StationItem stationItem);
 
     @Query("SELECT * FROM stations")
-    public StationItem[] getAllStations();
+    public List<StationItem> getAllStations();
+
+    @Query("SELECT * FROM stations")
+    public LiveData<List<StationItem>> getAllStationsLive();
 
     //All purpose search function which makes use of not just the station name
     @Query("SELECT * FROM stations WHERE stations.Name LIKE :searchTerm " +
     "OR stations.CrsCode LIKE :searchTerm " +
     "OR stations.SixteenCharacterName LIKE :searchTerm")
-    public StationItem[] searchForStations(String searchTerm);
+    public List<StationItem> searchForStations(String searchTerm);
+
+
+    @Query("SELECT * FROM stations WHERE stations.Name LIKE :searchTerm " +
+            "OR stations.CrsCode LIKE :searchTerm " +
+            "OR stations.SixteenCharacterName LIKE :searchTerm")
+    public LiveData<List<StationItem>> searchForStationsLive(String searchTerm);
 
     @Query("SELECT * FROM stations WHERE stations.StationOperator = :operatorCode")
-    public StationItem[] getAllStationsFromOperator(String operatorCode);
+    public List<StationItem> getAllStationsFromOperator(String operatorCode);
 }
