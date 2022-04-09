@@ -1,24 +1,20 @@
 package uk.ac.abertay.s1902765.nexttrain;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.Observable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.SearchView;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import java.util.List;
-import java.util.Locale;
 
 import uk.ac.abertay.s1902765.nexttrain.databinding.FragmentLiveTrainsBinding;
-import uk.ac.abertay.s1902765.nexttrain.databinding.StationSearchitemLayoutBinding;
 
 
 public class LiveTrains extends Fragment {
@@ -43,6 +39,10 @@ public class LiveTrains extends Fragment {
         //Forgot to add this one line, viewmodels now work correctly
         binding.setLiveTrainsModel(liveTrainsModel);
         View view = binding.getRoot();
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, android.R.id.text1, liveTrainsModel.stationNames);
+        binding.testListView.setAdapter(adapter);
+
         return view;
     }
 
@@ -53,35 +53,40 @@ public class LiveTrains extends Fragment {
     }
 }
 
-class TestStationsRecyclerViewAdapter extends RecyclerView.Adapter{
-    private List<String> items;
+public class CustomTestAdapter extends BaseAdapter{
 
-    private class StationViewHolder extends RecyclerView.ViewHolder{
+    List<StationItem> result;
+    Context context;
+    int [] imageId;
+    private static LayoutInflater inflater=null;
+    public CustomTestAdapter(Fragment fragmentActivity, List<StationItem> stationItems) {
+        // TODO Auto-generated constructor stub
+        result=stationItems;
+        context=fragmentActivity.getContext();
+        inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
 
-        StationSearchitemLayoutBinding binding;//Name of the test_list_item.xml in camel case + "Binding"
+    @Override
+    public int getCount() {
+        return result.size();
+    }
 
-        public StationViewHolder(StationSearchitemLayoutBinding b){
-            super(b.getRoot());
-            binding = b;
+    @Override
+    public StationItem getItem(int i) {
+        return result.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.station_searchitem_layout, parent, false);
+            //Todo fix this please
         }
-    }
-
-    StationSearchitemLayoutBinding stationBinding;
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new StationViewHolder(StationSearchitemLayoutBinding.inflate(LayoutInflater.from(parent.getContext())));
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        String text = String.format(Locale.ENGLISH, "%s %d", items.get(position), position);
-
-        //TODO Ugh, finish this later
-    }
-
-    @Override
-    public int getItemCount() {
-        return 0;
+        return view;
     }
 }
