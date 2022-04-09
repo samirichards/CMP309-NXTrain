@@ -50,8 +50,7 @@
                 android:imeActionLabel="Search"
                 android:imeOptions="actionSearch"
                 android:singleLine="true"
-                android:text="@={liveTrainsModel.stationSearchTerm}"
-                android:textColorHint="#616161" />
+                android:text="@={liveTrainsModel.stationSearchTerm}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ListView
@@ -62,6 +61,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/liveTrains_searchField"
+            tools:listitem=""
             />
 
 

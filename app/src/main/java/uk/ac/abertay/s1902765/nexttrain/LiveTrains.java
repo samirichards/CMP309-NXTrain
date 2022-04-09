@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -41,8 +40,9 @@ public class LiveTrains extends Fragment {
         binding.setLiveTrainsModel(liveTrainsModel);
         View view = binding.getRoot();
 
-        final CustomTestAdapter adapter = new CustomTestAdapter(this, liveTrainsModel.stations.getValue());
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, android.R.id.text1, liveTrainsModel.stationNames);
         binding.testListView.setAdapter(adapter);
+
         return view;
     }
 
@@ -53,3 +53,40 @@ public class LiveTrains extends Fragment {
     }
 }
 
+public class CustomTestAdapter extends BaseAdapter{
+
+    List<StationItem> result;
+    Context context;
+    int [] imageId;
+    private static LayoutInflater inflater=null;
+    public CustomTestAdapter(Fragment fragmentActivity, List<StationItem> stationItems) {
+        // TODO Auto-generated constructor stub
+        result=stationItems;
+        context=fragmentActivity.getContext();
+        inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    @Override
+    public int getCount() {
+        return result.size();
+    }
+
+    @Override
+    public StationItem getItem(int i) {
+        return result.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.station_searchitem_layout, parent, false);
+            //Todo fix this please
+        }
+        return view;
+    }
+}

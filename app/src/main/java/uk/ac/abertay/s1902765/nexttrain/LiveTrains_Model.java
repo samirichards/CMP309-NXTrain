@@ -17,11 +17,12 @@ import androidx.room.RoomDatabase;
 import java.util.List;
 
 public class LiveTrains_Model extends AndroidViewModel {
-    public LiveData<List<StationItem>> stations;
+    LiveData<List<StationItem>> stations;
     public ObservableField<List<String>> stationNames = new ObservableField<>();
     AppDatabase db;
     public ObservableField<String> stationSearchTerm = new ObservableField<>();
 
+    private String testString = "This is a test";
 
 
     public LiveTrains_Model(@NonNull Application application) {
@@ -33,5 +34,9 @@ public class LiveTrains_Model extends AndroidViewModel {
 
     public LiveData<List<StationItem>> getStations(String searchTerm){
         return db.stationsDao().searchForStationsLive(searchTerm);
+    }
+
+    public String getTestString() {
+        return testString;
     }
 }
