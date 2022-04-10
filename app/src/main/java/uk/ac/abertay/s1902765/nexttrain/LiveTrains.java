@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.SearchView;
 
+import androidx.databinding.BindingAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -31,6 +33,12 @@ public class LiveTrains extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         liveTrainsModel = new ViewModelProvider(this).get(LiveTrains_Model.class);
+
+        //This doesn't work
+        //TODO Make sure you figure out how to do list adapters properly
+        //Maybe check old code from your mobile dev in the studio, there you had a recyclerview (in C# but still)
+        //CustomTestAdapter testAdapter = new CustomTestAdapter(this, liveTrainsModel.stations.getValue());
+        //binding.testListView.setAdapter(testAdapter);
     }
 
     @Override

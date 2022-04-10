@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.databinding.BindingAdapter;
 import androidx.fragment.app.Fragment;
 
 import java.util.List;
@@ -18,7 +19,6 @@ public class CustomTestAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
 
     public CustomTestAdapter(Fragment fragmentActivity, List<StationItem> stationItems) {
-        // TODO Auto-generated constructor stub
         result = stationItems;
         context = fragmentActivity.getContext();
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

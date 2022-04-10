@@ -207,10 +207,6 @@ public class BuildDatabaseActivity extends AppCompatActivity {
             Log.println(Log.INFO, "NXTrain DB Item", item.Name);
         }
         db.close();
-
-
-        //TODO Make use of the Room Database to insert each station into the stations table
-
         return true;
     }
 
