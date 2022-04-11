@@ -1,11 +1,14 @@
 package uk.ac.abertay.s1902765.nexttrain;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
@@ -22,7 +25,6 @@ public class LiveTrains extends Fragment {
 
     private LiveTrains_Model liveTrainsModel;
     private FragmentLiveTrainsBinding binding;
-    private SearchView liveTrainsSearchView;
 
     public LiveTrains() {
         // Required empty public constructor
@@ -32,12 +34,6 @@ public class LiveTrains extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         liveTrainsModel = new ViewModelProvider(this).get(LiveTrains_Model.class);
-
-        //This doesn't work
-        //TODO Make sure you figure out how to do list adapters properly
-        //Maybe check old code from your mobile dev in the studio, there you had a recyclerview (in C# but still)
-        //CustomTestAdapter testAdapter = new CustomTestAdapter(this, liveTrainsModel.stations.getValue());
-        //binding.testListView.setAdapter(testAdapter);
     }
 
     @Override
@@ -108,12 +104,14 @@ class LiveTrainsTestRecyclerViewAdapter extends RecyclerView.Adapter<LiveTrainsT
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView stationName;
         public final TextView crsCode;
+        private final Context context;
 
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
             stationName = (TextView) view.findViewById(R.id.stationName);
             crsCode = (TextView) view.findViewById(R.id.stationCrs);
+            context = itemView.getContext();
         }
 
         public TextView getStationName() {
@@ -136,6 +134,15 @@ class LiveTrainsTestRecyclerViewAdapter extends RecyclerView.Adapter<LiveTrainsT
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         viewHolder.getStationName().setText(localDataset.get(position).Name);
         viewHolder.getCrsCode().setText(localDataset.get(position).CrsCode);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent openStationActivity = new Intent(view.getContext(), StationActivity.class);
+                openStationActivity.putExtra("stationCode", localDataset.get(viewHolder.getAdapterPosition()).CrsCode);
+                openStationActivity.putExtra("stationName", localDataset.get(viewHolder.getAdapterPosition()).Name);
+                view.getContext().startActivity(openStationActivity);
+            }
+        });
     }
 
     @Override

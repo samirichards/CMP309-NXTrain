@@ -4,7 +4,7 @@
     <string name="home_livetrains">Live Trains</string>
     <string name="home_profile">Profile</string>
     <string name="frag_journeys_fab_newjourney">New Journey</string>
-    <string name="building_database">Building Database...</string>
+    <string name="building_database">Building Stations Database...</string>
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -21,6 +21,6 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    
+
     <string name="searchStations">Search Stations</string>
 </resources>

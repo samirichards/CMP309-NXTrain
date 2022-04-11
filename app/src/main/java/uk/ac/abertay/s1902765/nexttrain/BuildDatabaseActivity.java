@@ -61,7 +61,7 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "Fetched server token", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getApplicationContext(), "Fetched server token", Toast.LENGTH_SHORT).show();
                             }
                         });
                         try {
@@ -87,8 +87,19 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "Operation completed", Toast.LENGTH_SHORT).show();
-                                finish();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        TextView helperText = findViewById(R.id.buildingDatabase_currentActionTextView);
+                                        helperText.setText("Build Complete");
+                                    }
+                                });
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        finish();
+                                    }
+                                }, 1500);
                             }
                         });
                     }
@@ -203,9 +214,6 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                 db.stationsDao().insertStation(db_stationItem);
             }
         }
-        for(StationItem item : db.stationsDao().getAllStations()){
-            Log.println(Log.INFO, "NXTrain DB Item", item.Name);
-        }
         db.close();
         return true;
     }
@@ -277,7 +285,7 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                             LinearProgressIndicator progressIndicator = findViewById(R.id.buildingDatabase_progressIndicator);
                             progressIndicator.setProgress(0);
                             progressIndicator.setMax(100);
-                            Toast.makeText(getApplicationContext(), "Downloaded stations.xml", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), "Downloaded stations.xml", Toast.LENGTH_SHORT).show();
                         }
                     });
                     return true;

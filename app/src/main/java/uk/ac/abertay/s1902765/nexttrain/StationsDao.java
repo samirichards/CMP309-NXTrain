@@ -43,14 +43,14 @@ public interface StationsDao {
     //All purpose search function which makes use of not just the station name
     @Query("SELECT * FROM stations WHERE stations.Name LIKE '%' || :searchTerm || '%'"
     + "OR stations.CrsCode LIKE '%' || :searchTerm || '%' " +
-    "OR stations.SixteenCharacterName LIKE '%' || :searchTerm || '%'"
+    "OR stations.SixteenCharacterName LIKE '%' || :searchTerm || '%' ORDER BY stations.Name ASC"
     )
     public List<StationItem> searchForStations(String searchTerm);
 
 
     @Query("SELECT * FROM stations WHERE stations.Name MATCH :searchTerm " +
             "OR stations.CrsCode MATCH :searchTerm " +
-            "OR stations.SixteenCharacterName MATCH :searchTerm")
+            "OR stations.SixteenCharacterName MATCH :searchTerm ORDER BY stations.Name ASC")
     public LiveData<List<StationItem>> searchForStationsLive(String searchTerm);
 
     @Query("SELECT * FROM stations WHERE stations.StationOperator = :operatorCode")

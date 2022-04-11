@@ -16,17 +16,14 @@ public class LiveTrains_Model extends AndroidViewModel implements Observable {
     private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
     public ObservableField<List<StationItem>> stations = new ObservableField<>();
     public ObservableField<List<String>> stationNames = new ObservableField<>();
+
+    public ObservableField<String> quote = new ObservableField<>();
+
     @NotNull
     AppDatabase db;
-
     @NotNull
     StationsDao stationsDao;
-
-
     public ObservableField<String> stationSearchTerm = new ObservableField<>();
-
-    private String testString = "This is a test";
-
 
     public LiveTrains_Model(@NonNull Application application) {
         super(application);
@@ -40,10 +37,7 @@ public class LiveTrains_Model extends AndroidViewModel implements Observable {
                 notifyChange();
             }
         }).start();
-    }
-
-    public String getTestString() {
-        return testString;
+        quote.set("something");
     }
 
     @Override
