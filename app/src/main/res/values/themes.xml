@@ -17,4 +17,13 @@
         <item name="colorAccent">@color/secondaryColor</item>
 
     </style>
+
+    <style name="Theme.NextTrain.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.NextTrain.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.NextTrain.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

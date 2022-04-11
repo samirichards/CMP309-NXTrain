@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uk.ac.abertay.s1902765.nexttrain">
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,16 +14,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NextTrain">
         <activity
+            android:name=".StationSearchActivity"
+            android:exported="false"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+        <activity
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".BuildDatabaseActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
-        <!--TODO Remove fixed screen orientation and make the activity just work regardless of rotation (use a viewmodel and such) -->
+            android:screenOrientation="portrait" /> <!-- TODO Remove fixed screen orientation and make the activity just work regardless of rotation (use a viewmodel and such) -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
