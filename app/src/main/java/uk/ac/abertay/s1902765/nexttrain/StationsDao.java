@@ -10,8 +10,6 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
-
 @Dao
 public interface StationsDao {
     //TODO Make this asynchronous when it comes time to optimise everything
@@ -43,15 +41,16 @@ public interface StationsDao {
     public LiveData<List<StationItem>> getAllStationsLive();
 
     //All purpose search function which makes use of not just the station name
-    @Query("SELECT * FROM stations WHERE stations.Name LIKE :searchTerm " +
-    "OR stations.CrsCode LIKE :searchTerm " +
-    "OR stations.SixteenCharacterName LIKE :searchTerm")
+    @Query("SELECT * FROM stations WHERE stations.Name LIKE '%' || :searchTerm || '%'"
+    + "OR stations.CrsCode LIKE '%' || :searchTerm || '%' " +
+    "OR stations.SixteenCharacterName LIKE '%' || :searchTerm || '%'"
+    )
     public List<StationItem> searchForStations(String searchTerm);
 
 
-    @Query("SELECT * FROM stations WHERE stations.Name LIKE :searchTerm " +
-            "OR stations.CrsCode LIKE :searchTerm " +
-            "OR stations.SixteenCharacterName LIKE :searchTerm")
+    @Query("SELECT * FROM stations WHERE stations.Name MATCH :searchTerm " +
+            "OR stations.CrsCode MATCH :searchTerm " +
+            "OR stations.SixteenCharacterName MATCH :searchTerm")
     public LiveData<List<StationItem>> searchForStationsLive(String searchTerm);
 
     @Query("SELECT * FROM stations WHERE stations.StationOperator = :operatorCode")
