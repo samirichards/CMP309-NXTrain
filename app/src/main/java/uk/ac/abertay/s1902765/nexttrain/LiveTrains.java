@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import uk.ac.abertay.s1902765.nexttrain.StationActivityGroup.StationActivity;
+import uk.ac.abertay.s1902765.nexttrain.stationActivityGroup.StationActivity;
 import uk.ac.abertay.s1902765.nexttrain.databinding.FragmentLiveTrainsBinding;
 
 

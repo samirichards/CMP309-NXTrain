@@ -1,7 +1,6 @@
-package uk.ac.abertay.s1902765.nexttrain.StationActivityGroup;
+package uk.ac.abertay.s1902765.nexttrain.stationActivityGroup;
 
 import android.app.Application;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.Observable;
@@ -22,9 +21,8 @@ public class StationActivity_Model extends AndroidViewModel implements Observabl
         StationName.set(name);
         StationCode.set(code);
         notifyChange();
-        Toast.makeText(getApplication().getApplicationContext(), "Set station has been run", Toast.LENGTH_SHORT).show();
-    }
 
+    }
 
     @Override
     public void addOnPropertyChangedCallback(Observable.OnPropertyChangedCallback callback) {

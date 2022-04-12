@@ -16,7 +16,7 @@
         android:id="@+id/station_filter"
         android:icon="@drawable/ic_baseline_filter_list_24"
         android:title="@string/stationActvity_menu_stationFilter"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom|collapseActionView" />
     <item
         android:id="@+id/station_about"
         android:icon="@drawable/ic_baseline_info_24"

@@ -1,4 +1,4 @@
-package uk.ac.abertay.s1902765.nexttrain.StationActivityGroup;
+package uk.ac.abertay.s1902765.nexttrain.stationActivityGroup;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,6 +26,7 @@ public class StationActivity extends AppCompatActivity {
         setSupportActionBar(binding.stationActivityMaterialToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle(model.StationName.get());
     }
 
     private void getViewBundledInfo() {
