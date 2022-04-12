@@ -1,16 +1,15 @@
 package uk.ac.abertay.s1902765.nexttrain;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
@@ -24,7 +23,6 @@ import org.xml.sax.SAXException;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,6 +31,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -94,6 +93,8 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                                         helperText.setText("Build Complete");
                                     }
                                 });
+                                SharedPreferences settings = getSharedPreferences("appSettings", 0);
+                                settings.edit().putLong("dbLastUpdated", (new Date(System.currentTimeMillis()).getTime())).apply();
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
