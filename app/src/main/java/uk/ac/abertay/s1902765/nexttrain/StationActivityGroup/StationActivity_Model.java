@@ -1,4 +1,4 @@
-package uk.ac.abertay.s1902765.nexttrain;
+package uk.ac.abertay.s1902765.nexttrain.StationActivityGroup;
 
 import android.app.Application;
 import android.widget.Toast;
@@ -14,11 +14,8 @@ public class StationActivity_Model extends AndroidViewModel implements Observabl
     private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
     public ObservableField<String> StationName = new ObservableField<>();
     public ObservableField<String> StationCode = new ObservableField<>();
-    public ObservableField<String> testString = new ObservableField<>();
     public StationActivity_Model(@NonNull Application application) {
         super(application);
-        testString.set("This is a test");
-        notifyChange();
     }
 
     public void SetStation(String name, String code){

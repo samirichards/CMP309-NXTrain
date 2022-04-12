@@ -23,4 +23,12 @@
     <string name="previous">Previous</string>
 
     <string name="searchStations">Search Stations</string>
+
+    <string name="stationActvity_menu_stationAbout">About</string>
+    <string name="stationActvity_menu_stationFilter">Filter</string>
+    <string name="stationActvity_menu_stationFavourite">Favourite</string>
+    <string name="stationActvity_menu_stationTimeOffset">Time Offset</string>
+
+
+
 </resources>

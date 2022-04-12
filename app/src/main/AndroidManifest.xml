@@ -14,7 +14,7 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.NextTrain">
         <activity
-            android:name=".StationActivity"
+            android:name=".StationActivityGroup.StationActivity"
             android:exported="false" />
         <activity
             android:name=".StationSearchActivity"

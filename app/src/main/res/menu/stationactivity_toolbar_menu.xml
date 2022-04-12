@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/station_time_offset"
+        android:icon="@drawable/ic_baseline_access_time_24"
+        android:title="@string/stationActvity_menu_stationTimeOffset"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/station_add_favourite"
+        android:icon="@drawable/ic_baseline_star_24"
+        android:title="@string/stationActvity_menu_stationFavourite"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/station_filter"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        android:title="@string/stationActvity_menu_stationFilter"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/station_about"
+        android:icon="@drawable/ic_baseline_info_24"
+        android:title="@string/stationActvity_menu_stationAbout"
+        app:showAsAction="ifRoom" />
+</menu>

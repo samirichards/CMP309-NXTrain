@@ -2,11 +2,11 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".StationActivity">
+    tools:context=".StationActivityGroup.StationActivity">
     <data>
         <variable
             name="stationActivityModel"
-            type="uk.ac.abertay.s1902765.nexttrain.StationActivity_Model" />
+            type="uk.ac.abertay.s1902765.nexttrain.StationActivityGroup.StationActivity_Model" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/stationActivity_frameLayout"
@@ -26,7 +26,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:title="@{stationActivityModel.StationName}"
-                app:subtitle="@{stationActivityModel.StationCode}"/>
+                app:subtitle="@{stationActivityModel.StationCode}"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                app:menu="@menu/stationactivity_toolbar_menu" />
             <com.google.android.material.tabs.TabLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -41,23 +43,11 @@
             </com.google.android.material.tabs.TabLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{stationActivityModel.testString}"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/StationActivity_ViewPager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stationActivity_appBarLayout"
-            app:layout_constraintVertical_bias="0.5" />
-
-        <Button
-            android:id="@+id/stationActivityTestButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stationActivity_appBarLayout" />
