@@ -78,10 +78,28 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                             loadStationsIntoSqlCache();
                         } catch (IOException e) {
                             e.printStackTrace();
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "Error loading stations", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         } catch (SAXException e) {
                             e.printStackTrace();
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "Error loading stations", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         } catch (ParserConfigurationException e) {
                             e.printStackTrace();
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "Error loading stations", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                         handler.post(new Runnable() {
                             @Override
@@ -247,6 +265,7 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                     helperText.setText("Sending request for stations data");
                 }
             });
+            http.setConnectTimeout(120);
 
 
             if (http.getResponseCode() == HttpURLConnection.HTTP_OK){
@@ -270,10 +289,6 @@ public class BuildDatabaseActivity extends AppCompatActivity {
                     FileOutputStream fos = new FileOutputStream(new File(getFilesDir(), "stations.xml"));
                     BufferedReader br = new BufferedReader(new InputStreamReader(http.getInputStream()));
                     String line;
-
-                    //float exactProgress = 0.0F;
-                    //float exactProgressInterval = 100 / br.lines().count();
-                    //int currentProgress = 0;
 
                     for (line = br.readLine(); line != null; line = br.readLine()) {
                         fos.write(line.getBytes(StandardCharsets.UTF_8));

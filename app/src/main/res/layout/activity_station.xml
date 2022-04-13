@@ -36,12 +36,20 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleEnabled="true">
 
+                <ImageView
+                    android:id="@+id/stationActivity_headerImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:fitsSystemWindows="true" />
+
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/stationActivity_materialToolbar"
                     style="@style/Widget.Material3.Toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:elevation="0dp"
+                    android:background="@android:color/transparent"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll"
                     app:menu="@menu/stationactivity_toolbar_menu"
