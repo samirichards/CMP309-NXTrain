@@ -26,4 +26,8 @@
     <style name="Theme.NextTrain.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.NextTrain.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="HeaderTitleStyle" parent="TextAppearance.Material3.ActionBar.Title">
+        <item name="android:ellipsize">none</item>
+    </style>
 </resources>

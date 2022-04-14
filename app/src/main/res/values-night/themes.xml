@@ -15,4 +15,18 @@
         <!-- Customize your theme here. -->
         <item name="colorAccent">@color/secondaryColor</item>
     </style>
+
+    <style name="Theme.NextTrain.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.NextTrain.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.NextTrain.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="HeaderTitleStyle" parent="@android:style/TextAppearance">
+        <item name="android:textSize">20sp</item>
+        <item name="android:singleLine">false</item>
+    </style>
 </resources>

@@ -40,19 +40,7 @@ public class StationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setTitle(model.StationName.get());
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                GetStationURL getStationURL = new GetStationURL(model.StationName.get());
-                try {
-                    GetStationImageNew stationImageNew = new GetStationImageNew(getStationURL.call());
-                    stationImageNew.call();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        getSupportActionBar().setSubtitle(model.StationCode.get());
     }
 
     private void getViewBundledInfo() {
@@ -120,7 +108,7 @@ public class StationActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            binding.stationActivityHeaderImage.setImageBitmap(bitmap);
+            //binding.stationActivityHeaderImage.setImageBitmap(bitmap);
             return null;
         }
     }
