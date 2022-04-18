@@ -29,6 +29,8 @@
     <string name="stationActvity_menu_stationFavourite">Favourite</string>
     <string name="stationActvity_menu_stationTimeOffset">Time Offset</string>
 
+    <string name="menu_refresh">Refresh</string>
+
 
 
 </resources>
