@@ -42,13 +42,11 @@ public class LiveTrains extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentLiveTrainsBinding.inflate(inflater, container, false);
-        //Forgot to add this one line, viewmodels now work correctly
         binding.setLiveTrainsModel(liveTrainsModel);
         View view = binding.getRoot();
 
         binding.liveTrainsSearchField.setOnQueryTextListener(searchListener);
         binding.liveTrainsSearchRecyclerView.setAdapter(new LiveTrainsTestRecyclerViewAdapter());
-        binding.testButtonRefreshLocation.setOnClickListener(this);
         binding.liveTrainsNearestStationButton.setOnClickListener(this);
         return view;
     }
@@ -125,10 +123,6 @@ public class LiveTrains extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         //TODO should probably just make use of the binding stuff set up earlier, this is a bit archaic
         switch (view.getId()){
-            case R.id.test_buttonRefreshLocation:{
-                Toast.makeText(getActivity().getApplicationContext(), "Refreshing...", Toast.LENGTH_SHORT).show();
-                return;
-            }
             case R.id.liveTrains_nearestStationButton:{
                 if (liveTrainsModel.nearestStation != null){
                     Intent openStationActivity = new Intent(view.getContext(), StationActivity.class);

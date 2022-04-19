@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.databinding.Observable;
 import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
 import androidx.databinding.PropertyChangeRegistry;
 import androidx.lifecycle.AndroidViewModel;
 
@@ -13,6 +14,7 @@ public class StationActivity_Model extends AndroidViewModel implements Observabl
     private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
     public ObservableField<String> StationName = new ObservableField<>();
     public ObservableField<String> StationCode = new ObservableField<>();
+    public ObservableInt TimeOffset = new ObservableInt();
     public StationActivity_Model(@NonNull Application application) {
         super(application);
     }

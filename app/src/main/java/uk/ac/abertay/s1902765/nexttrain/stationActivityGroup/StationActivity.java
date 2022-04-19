@@ -5,8 +5,13 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.json.JSONObject;
 
@@ -26,6 +31,7 @@ public class StationActivity extends AppCompatActivity {
 
     private StationActivity_Model model;
     private ActivityStationBinding binding;
+    private StationActivityCollectionAdapter viewPagerAdapter = new StationActivityCollectionAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,11 @@ public class StationActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setTitle(model.StationName.get());
         getSupportActionBar().setSubtitle(model.StationCode.get());
+
+        //TODO Make this work pls
+        binding.StationActivityMainViewPager.setAdapter(viewPagerAdapter);
+        new TabLayoutMediator(binding.StationActivityTabLayout, binding.StationActivityMainViewPager,
+                ((tab, position) -> tab.getText())).attach();
     }
 
     private void getViewBundledInfo() {
@@ -110,6 +121,29 @@ public class StationActivity extends AppCompatActivity {
             }
             //binding.stationActivityHeaderImage.setImageBitmap(bitmap);
             return null;
+        }
+    }
+
+    private class StationActivityCollectionAdapter extends FragmentStateAdapter {
+
+        public StationActivityCollectionAdapter(Fragment fragment){
+            super(fragment);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            Boolean setType = false;
+            if(position == 2){
+                setType = true;
+            }
+            Fragment_StationActivity_ListServices fragment = Fragment_StationActivity_ListServices.newInstance(model.StationCode.get(), setType, model.TimeOffset.get());
+            return fragment;
+        }
+
+        @Override
+        public int getItemCount() {
+            return 2;
         }
     }
 }

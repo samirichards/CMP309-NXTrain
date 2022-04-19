@@ -88,12 +88,6 @@
                         app:icon="@drawable/ic_baseline_near_me_24"/>
 
                 </GridLayout>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:text="Refresh Location"
-                    android:id="@+id/test_buttonRefreshLocation"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
