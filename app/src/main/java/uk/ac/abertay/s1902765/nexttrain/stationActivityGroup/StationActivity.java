@@ -31,7 +31,8 @@ public class StationActivity extends AppCompatActivity {
 
     private StationActivity_Model model;
     private ActivityStationBinding binding;
-    private StationActivityCollectionAdapter viewPagerAdapter = new StationActivityCollectionAdapter();
+    private StationActivityCollectionAdapter viewPagerAdapter = new StationActivityCollectionAdapter(this);
+    private final String[] tabTitles = {"Departures", "Arrivals"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class StationActivity extends AppCompatActivity {
         //TODO Make this work pls
         binding.StationActivityMainViewPager.setAdapter(viewPagerAdapter);
         new TabLayoutMediator(binding.StationActivityTabLayout, binding.StationActivityMainViewPager,
-                ((tab, position) -> tab.getText())).attach();
+                ((tab, position) -> tab.setText(tabTitles[position]))).attach();
     }
 
     private void getViewBundledInfo() {
@@ -126,8 +127,9 @@ public class StationActivity extends AppCompatActivity {
 
     private class StationActivityCollectionAdapter extends FragmentStateAdapter {
 
-        public StationActivityCollectionAdapter(Fragment fragment){
-            super(fragment);
+        public StationActivityCollectionAdapter(AppCompatActivity activity)
+        {
+            super(activity);
         }
 
         @NonNull

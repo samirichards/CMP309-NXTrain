@@ -18,10 +18,12 @@ public class Fragment_StationActivity_ListServices extends Fragment {
     private static final String ARG_STATION_CODE = "mStationCode";
     private static final String ARG_IS_ARRIVAL = "mIsArrival";
     private static final String ARG_TIMEOFFSET = "mTimeOffset";
+    private static final String ARG_TITLE = "mTitle";
 
     private String mStationCode;
     private Boolean mIsArrival;
     private int mTimeOffset;
+    private String mTitle;
 
     public Fragment_StationActivity_ListServices() {
         // Required empty public constructor
@@ -43,8 +45,18 @@ public class Fragment_StationActivity_ListServices extends Fragment {
         args.putString(ARG_STATION_CODE, stationCode);
         args.putBoolean(ARG_IS_ARRIVAL, isArrival);
         args.putInt(ARG_TIMEOFFSET, minuteOffset);
+        if (isArrival){
+            args.putString(ARG_TITLE, "Arrivals");
+        }
+        else{
+            args.putString(ARG_TITLE, "Departures");
+        }
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public String GetTitle(){
+        return mTitle;
     }
 
     @Override
