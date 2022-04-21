@@ -24,6 +24,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug{
+            shrinkResources false
+            minifyEnabled false
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -33,6 +37,9 @@ android {
     buildFeatures {
         viewBinding true
         dataBinding true
+    }
+    configurations {
+        all*.exclude group: 'xpp3', module: 'xpp3'
     }
 }
 
