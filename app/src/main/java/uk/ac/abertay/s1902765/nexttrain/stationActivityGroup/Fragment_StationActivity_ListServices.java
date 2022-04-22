@@ -4,10 +4,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.thalesgroup.rtti._2013_11_28.token.types.AccessToken;
+import com.thalesgroup.rtti._2017_10_01.ldb.GetBoardRequestParams;
+import com.thalesgroup.rtti._2017_10_01.ldb.Ldb;
+import com.thalesgroup.rtti._2017_10_01.ldb.*;
+import com.thalesgroup.rtti._2017_10_01.ldb.StationBoardResponseType;
+import com.thalesgroup.rtti._2017_10_01.ldb.types.ServiceItem;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import uk.ac.abertay.s1902765.nexttrain.R;
+import uk.ac.abertay.s1902765.nexttrain.databinding.FragmentStationActivityListServicesBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +29,10 @@ public class Fragment_StationActivity_ListServices extends Fragment {
     private static final String ARG_IS_ARRIVAL = "mIsArrival";
     private static final String ARG_TIMEOFFSET = "mTimeOffset";
     private static final String ARG_TITLE = "mTitle";
+    private Fragment_StationActivity_ListServices_ViewModel model;
+    private FragmentStationActivityListServicesBinding binding;
+    AccessToken accessToken = new AccessToken();
+    Ldb soap;
 
     private String mStationCode;
     private Boolean mIsArrival;
@@ -66,13 +80,18 @@ public class Fragment_StationActivity_ListServices extends Fragment {
             mStationCode = getArguments().getString(ARG_STATION_CODE);
             mIsArrival = getArguments().getBoolean(ARG_IS_ARRIVAL);
             mTimeOffset = getArguments().getInt(ARG_TIMEOFFSET);
+            mTitle = getArguments().getString(ARG_TITLE);
         }
+        model = new ViewModelProvider(this).get(Fragment_StationActivity_ListServices_ViewModel.class);
+        Toast.makeText(getActivity().getApplicationContext(), mTitle + " fragment created", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_station_activity_list_services, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentStationActivityListServicesBinding.inflate(inflater, container, false);
+        binding.setFragmentListServicesModel(model);
+        View view = binding.getRoot();
+
+        return view;
     }
 }

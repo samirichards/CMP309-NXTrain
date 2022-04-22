@@ -136,7 +136,7 @@ public class StationActivity extends AppCompatActivity {
         @Override
         public Fragment createFragment(int position) {
             Boolean setType = false;
-            if(position == 2){
+            if(position > 0){
                 setType = true;
             }
             Fragment_StationActivity_ListServices fragment = Fragment_StationActivity_ListServices.newInstance(model.StationCode.get(), setType, model.TimeOffset.get());

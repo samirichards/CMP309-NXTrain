@@ -41,10 +41,16 @@ android {
     configurations {
         all*.exclude group: 'xpp3', module: 'xpp3'
     }
+    packagingOptions {
+        resources.excludes.add("META-INF/hk2-locator/default")
+        resources.excludes.add("META-INF/LICENSE.md")
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
 
+    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
     implementation "com.google.code.ksoap2-android:ksoap2-android:3.6.2"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.2.1"
@@ -62,6 +68,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation 'androidx.preference:preference:1.2.0'
+    implementation 'javax.jws:javax.jws-api:1.1'
+    implementation 'javax.xml.ws:jaxws-api:2.3.1'
+    implementation 'com.sun.xml.ws:jaxws-rt:4.0.0-M4'
+    implementation 'jakarta.xml.ws:jakarta.xml.ws-api:4.0.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
