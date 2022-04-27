@@ -1,19 +1,17 @@
 package uk.ac.abertay.s1902765.nexttrain.stationActivityGroup;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.Observable;
 import androidx.databinding.ObservableField;
 import androidx.databinding.PropertyChangeRegistry;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.ViewModel;
 
 import com.thalesgroup.rtti._2013_11_28.token.types.AccessToken;
-import com.thalesgroup.rtti._2017_10_01.ldb.GetBoardRequestParams;
 import com.thalesgroup.rtti._2017_10_01.ldb.LDBServiceSoap;
 import com.thalesgroup.rtti._2017_10_01.ldb.Ldb;
-import com.thalesgroup.rtti._2017_10_01.ldb.StationBoardResponseType;
 import com.thalesgroup.rtti._2017_10_01.ldb.types.ServiceItem;
 
 import java.util.List;
@@ -50,17 +48,30 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
     }
 
     void updateServiceList(){
-        AccessToken token = new AccessToken();
-        token.setTokenValue(LDB_TOKEN);
+        new Thread(new Runnable() {
+            public void run() {
+                AccessToken token = new AccessToken();
+                token.setTokenValue(LDB_TOKEN);
 
-        Ldb soap = new Ldb();
-        LDBServiceSoap soapService = soap.getLDBServiceSoap12();
-        GetBoardRequestParams params = new GetBoardRequestParams();
-        params.setCrs(CrsCode);
-        params.setNumRows(4);
+                Ldb soap = new Ldb();
+                try{
+                    LDBServiceSoap soapService = soap.getLDBServiceSoap12();
+                }
+                catch (Exception e){
+                    e.getCause();
+                    Toast.makeText(getApplication().getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                soap.getServiceName();
+                soap.getWSDLDocumentLocation();
 
-        StationBoardResponseType departureBoard = soapService.getDepartureBoard(params, token);
+                //GetBoardRequestParams params = new GetBoardRequestParams();
+                //params.setCrs(CrsCode);
+                //params.setNumRows(4);
 
-        serviceItemList.set(departureBoard.getGetStationBoardResult().getTrainServices().getService());
+                //StationBoardResponseType departureBoard = soapService.getDepartureBoard(params, token);
+
+                //serviceItemList.set(departureBoard.getGetStationBoardResult().getTrainServices().getService());
+            }
+        }).start();
     }
 }

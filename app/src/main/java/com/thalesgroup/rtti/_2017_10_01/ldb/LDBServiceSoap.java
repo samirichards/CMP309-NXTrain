@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 public interface LDBServiceSoap {
 
+    @SOAPBinding(parameterStyle=SOAPBinding.ParameterStyle.WRAPPED)
     @WebMethod(operationName = "GetDepartureBoard", action = "http://thalesgroup.com/RTTI/2012-01-13/ldb/GetDepartureBoard")
     @WebResult(name = "GetDepartureBoardResponse", targetNamespace = "http://thalesgroup.com/RTTI/2017-10-01/ldb/", partName = "parameters")
     public StationBoardResponseType getDepartureBoard(

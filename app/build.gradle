@@ -40,18 +40,21 @@ android {
     }
     configurations {
         all*.exclude group: 'xpp3', module: 'xpp3'
+        all{
+            exclude group: "javax.jws.soap", module: "jetified-jakartax"
+            exclude group: "javax.jws.soap", module: "jakarta.jws-api-1.1"
+        }
     }
     packagingOptions {
         resources.excludes.add("META-INF/hk2-locator/default")
         resources.excludes.add("META-INF/LICENSE.md")
         resources.excludes.add("META-INF/*")
+        resources.excludes.add("license.html")
+        resources.excludes.add("readme.html")
     }
 }
 
 dependencies {
-
-    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
-    implementation "com.google.code.ksoap2-android:ksoap2-android:3.6.2"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
@@ -59,6 +62,15 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation "android.arch.lifecycle:viewmodel:1.1.1"
+
+    implementation "com.google.code.ksoap2-android:ksoap2-android:3.6.2"
+    implementation 'com.sun.xml.ws:jaxws-rt:2.3.2'
+    //implementation 'com.sun.xml.ws:rt:2.3.2'
+    implementation 'com.sun.xml.ws:jaxws-ri:2.3.2'
+    implementation 'com.sun.xml.messaging.saaj:saaj-impl:1.5.1'
+    //implementation 'javax.xml.ws:jaxws-api:2.3.1'
+    //implementation 'javax.jws:javax.jws-api:1.1'
+    //implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
 
     implementation platform('com.google.firebase:firebase-bom:29.2.1')
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -68,10 +80,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation 'androidx.preference:preference:1.2.0'
-    implementation 'javax.jws:javax.jws-api:1.1'
-    implementation 'javax.xml.ws:jaxws-api:2.3.1'
-    implementation 'com.sun.xml.ws:jaxws-rt:4.0.0-M4'
-    implementation 'jakarta.xml.ws:jakarta.xml.ws-api:4.0.0'
+    implementation 'com.sun.org.apache.xml.internal:resolver:20050927'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
