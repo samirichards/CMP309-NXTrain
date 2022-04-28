@@ -5,7 +5,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.Observable;
+import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
 import androidx.databinding.PropertyChangeRegistry;
 import androidx.lifecycle.AndroidViewModel;
 
@@ -36,6 +38,8 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
     private RTTInterface api;
 
     public ObservableField<ArrayList<TrainService>> serviceList = new ObservableField<>();
+    public ObservableBoolean isLoading = new ObservableBoolean();
+    public ObservableInt errorState = new ObservableInt();
 
     private Boolean isArrivals = false;
     private String CrsCode = "DEE";
@@ -68,6 +72,7 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
     }
 
     void updateServiceList(){
+        isLoading.set(true);
         new Thread(new Runnable() {
             public void run() {
                 Call<StationSearchResult> call = api.getDeparturesFromStation(CrsCode);
@@ -77,11 +82,18 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
                         Toast.makeText(getApplication().getApplicationContext(), "Service fetch worked", Toast.LENGTH_SHORT).show();
                         Toast.makeText(getApplication().getApplicationContext(), response.body().location.name, Toast.LENGTH_SHORT).show();
                         Toast.makeText(getApplication().getApplicationContext(), response.body().services.get(0).atocName, Toast.LENGTH_SHORT).show();
+                        serviceList.set(response.body().services);
+                        isLoading.set(false);
+                        errorState.set(0);
+                        notifyChange();
                     }
 
                     @Override
                     public void onFailure(Call<StationSearchResult> call, Throwable t) {
                         Toast.makeText(getApplication().getApplicationContext(), "Service fetch failed", Toast.LENGTH_SHORT).show();
+                        isLoading.set(false);
+                        errorState.set(1);
+                        notifyChange();
                     }
                 });
             }

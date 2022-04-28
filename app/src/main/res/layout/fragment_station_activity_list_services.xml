@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".stationActivityGroup.Fragment_StationActivity_ListServices">
     <data>
+        <import type="android.view.View"/>
         <variable
             name="fragment_listServicesModel"
             type="uk.ac.abertay.s1902765.nexttrain.stationActivityGroup.Fragment_StationActivity_ListServices_ViewModel" />
@@ -14,6 +15,7 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="@{fragment_listServicesModel.isLoading ? View.VISIBLE : View.GONE}"
             android:id="@+id/fragment_stationActivity_listServices_recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -21,6 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+
             tools:listitem="@layout/station_activity_servicedetail_item" />
 
         <ProgressBar
@@ -29,6 +32,7 @@
             android:indeterminate="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="@{fragment_listServicesModel.isLoading ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/fragment_stationActivity_listServices_recyclerView"
             app:layout_constraintEnd_toEndOf="@+id/fragment_stationActivity_listServices_recyclerView"
             app:layout_constraintStart_toStartOf="@+id/fragment_stationActivity_listServices_recyclerView"
