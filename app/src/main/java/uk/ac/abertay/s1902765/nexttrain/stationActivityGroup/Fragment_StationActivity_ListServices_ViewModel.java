@@ -9,23 +9,43 @@ import androidx.databinding.ObservableField;
 import androidx.databinding.PropertyChangeRegistry;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.thalesgroup.rtti._2013_11_28.token.types.AccessToken;
-import com.thalesgroup.rtti._2017_10_01.ldb.LDBServiceSoap;
-import com.thalesgroup.rtti._2017_10_01.ldb.Ldb;
-import com.thalesgroup.rtti._2017_10_01.ldb.types.ServiceItem;
+import java.io.IOException;
+import java.util.ArrayList;
 
-import java.util.List;
+import okhttp3.Credentials;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import uk.ac.abertay.s1902765.nexttrain.RttApi.RTTInterface;
+import uk.ac.abertay.s1902765.nexttrain.RttApi.StationSearchResult;
+import uk.ac.abertay.s1902765.nexttrain.RttApi.TrainService;
 
 public class Fragment_StationActivity_ListServices_ViewModel extends AndroidViewModel implements Observable {
     private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
-    private static final String LDB_TOKEN = "da083564-3a3a-4ae4-b056-6116ecfd1aaf";
-    public ObservableField<List<ServiceItem>> serviceItemList = new ObservableField<>();
+
+    private String AuthUsername = "rttapi_samirichards";
+    private String AuthPassword = "dd684f86675dbc290e53f83060bd471a67cc3de3";
+    private String API_Endpoint = "https://api.rtt.io/api/v1/";
+    Retrofit retrofitClient;
+    OkHttpClient httpClient;
+    private RTTInterface api;
+
+    public ObservableField<ArrayList<TrainService>> serviceList = new ObservableField<>();
+
     private Boolean isArrivals = false;
     private String CrsCode = "DEE";
     //TODO Change this, set to Dundee as a temporary measure
 
     public Fragment_StationActivity_ListServices_ViewModel(@NonNull Application application) {
         super(application);
+        httpClient = new OkHttpClient().newBuilder().addInterceptor(new BasicAuthInterceptor(AuthUsername, AuthPassword)).build();
+        retrofitClient = new Retrofit.Builder().baseUrl(API_Endpoint).addConverterFactory(GsonConverterFactory.create()).client(httpClient).build();
+        api = retrofitClient.create(RTTInterface.class);
         updateServiceList();
     }
 
@@ -50,28 +70,39 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
     void updateServiceList(){
         new Thread(new Runnable() {
             public void run() {
-                AccessToken token = new AccessToken();
-                token.setTokenValue(LDB_TOKEN);
+                Call<StationSearchResult> call = api.getDeparturesFromStation(CrsCode);
+                call.enqueue(new Callback<StationSearchResult>() {
+                    @Override
+                    public void onResponse(Call<StationSearchResult> call, retrofit2.Response<StationSearchResult> response) {
+                        Toast.makeText(getApplication().getApplicationContext(), "Service fetch worked", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication().getApplicationContext(), response.body().location.name, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication().getApplicationContext(), response.body().services.get(0).atocName, Toast.LENGTH_SHORT).show();
+                    }
 
-                Ldb soap = new Ldb();
-                try{
-                    LDBServiceSoap soapService = soap.getLDBServiceSoap12();
-                }
-                catch (Exception e){
-                    e.getCause();
-                    Toast.makeText(getApplication().getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-                soap.getServiceName();
-                soap.getWSDLDocumentLocation();
-
-                //GetBoardRequestParams params = new GetBoardRequestParams();
-                //params.setCrs(CrsCode);
-                //params.setNumRows(4);
-
-                //StationBoardResponseType departureBoard = soapService.getDepartureBoard(params, token);
-
-                //serviceItemList.set(departureBoard.getGetStationBoardResult().getTrainServices().getService());
+                    @Override
+                    public void onFailure(Call<StationSearchResult> call, Throwable t) {
+                        Toast.makeText(getApplication().getApplicationContext(), "Service fetch failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }).start();
     }
+}
+
+class BasicAuthInterceptor implements Interceptor {
+
+    private String credentials;
+
+    public BasicAuthInterceptor(String user, String password) {
+        this.credentials = Credentials.basic(user, password);
+    }
+
+    @Override
+    public Response intercept(Chain chain) throws IOException {
+        Request request = chain.request();
+        Request authenticatedRequest = request.newBuilder()
+                .header("Authorization", credentials).build();
+        return chain.proceed(authenticatedRequest);
+    }
+
 }

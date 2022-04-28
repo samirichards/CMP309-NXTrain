@@ -6,17 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.thalesgroup.rtti._2013_11_28.token.types.AccessToken;
-import com.thalesgroup.rtti._2017_10_01.ldb.GetBoardRequestParams;
-import com.thalesgroup.rtti._2017_10_01.ldb.Ldb;
-import com.thalesgroup.rtti._2017_10_01.ldb.*;
-import com.thalesgroup.rtti._2017_10_01.ldb.StationBoardResponseType;
-import com.thalesgroup.rtti._2017_10_01.ldb.types.ServiceItem;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import uk.ac.abertay.s1902765.nexttrain.R;
 import uk.ac.abertay.s1902765.nexttrain.databinding.FragmentStationActivityListServicesBinding;
 
 /**
@@ -31,8 +23,6 @@ public class Fragment_StationActivity_ListServices extends Fragment {
     private static final String ARG_TITLE = "mTitle";
     private Fragment_StationActivity_ListServices_ViewModel model;
     private FragmentStationActivityListServicesBinding binding;
-    AccessToken accessToken = new AccessToken();
-    Ldb soap;
 
     private String mStationCode;
     private Boolean mIsArrival;
