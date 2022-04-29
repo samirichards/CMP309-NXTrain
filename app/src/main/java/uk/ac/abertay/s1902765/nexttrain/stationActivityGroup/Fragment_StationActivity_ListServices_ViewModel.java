@@ -1,9 +1,11 @@
 package uk.ac.abertay.s1902765.nexttrain.stationActivityGroup;
 
 import android.app.Application;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.Bindable;
 import androidx.databinding.Observable;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
@@ -13,6 +15,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import okhttp3.Credentials;
 import okhttp3.Interceptor;
@@ -50,7 +53,17 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
         httpClient = new OkHttpClient().newBuilder().addInterceptor(new BasicAuthInterceptor(AuthUsername, AuthPassword)).build();
         retrofitClient = new Retrofit.Builder().baseUrl(API_Endpoint).addConverterFactory(GsonConverterFactory.create()).client(httpClient).build();
         api = retrofitClient.create(RTTInterface.class);
+    }
+
+    public void setModelParameters(String _crsCode, Boolean _isArrival){
+        CrsCode = _crsCode;
+        isArrivals = _isArrival;
         updateServiceList();
+    }
+
+    @Bindable
+    public int getLoadVisibility(){
+        return isLoading.get() ? View.VISIBLE : View.GONE;
     }
 
     @Override
@@ -73,16 +86,21 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
 
     void updateServiceList(){
         isLoading.set(true);
+        serviceList.set(new ArrayList<TrainService>());
         new Thread(new Runnable() {
             public void run() {
-                Call<StationSearchResult> call = api.getDeparturesFromStation(CrsCode);
+                Call<StationSearchResult> call = api.getLiveDepartures(CrsCode);
                 call.enqueue(new Callback<StationSearchResult>() {
                     @Override
                     public void onResponse(Call<StationSearchResult> call, retrofit2.Response<StationSearchResult> response) {
-                        Toast.makeText(getApplication().getApplicationContext(), "Service fetch worked", Toast.LENGTH_SHORT).show();
                         Toast.makeText(getApplication().getApplicationContext(), response.body().location.name, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getApplication().getApplicationContext(), response.body().services.get(0).atocName, Toast.LENGTH_SHORT).show();
-                        serviceList.set(response.body().services);
+                        if(isArrivals){
+                            serviceList.set(response.body().services);
+                            //TODO Filter out services if the origin is the same as the current station
+                        }
+                        else{
+                            serviceList.set(response.body().services);
+                        }
                         isLoading.set(false);
                         errorState.set(0);
                         notifyChange();

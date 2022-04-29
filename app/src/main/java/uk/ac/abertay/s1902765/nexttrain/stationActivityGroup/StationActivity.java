@@ -1,15 +1,19 @@
 package uk.ac.abertay.s1902765.nexttrain.stationActivityGroup;
 
+import android.animation.LayoutTransition;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -49,10 +53,11 @@ public class StationActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(model.StationName.get());
         getSupportActionBar().setSubtitle(model.StationCode.get());
 
-        //TODO Make this work pls
         binding.StationActivityMainViewPager.setAdapter(viewPagerAdapter);
         new TabLayoutMediator(binding.StationActivityTabLayout, binding.StationActivityMainViewPager,
                 ((tab, position) -> tab.setText(tabTitles[position]))).attach();
+        //Disable swiping between views as it can cause confusion when scrolling
+        binding.StationActivityMainViewPager.setUserInputEnabled(false);
     }
 
     private void getViewBundledInfo() {
