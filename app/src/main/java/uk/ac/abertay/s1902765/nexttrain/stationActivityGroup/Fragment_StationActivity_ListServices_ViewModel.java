@@ -15,6 +15,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import okhttp3.Credentials;
@@ -40,7 +41,7 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
     OkHttpClient httpClient;
     private RTTInterface api;
 
-    public ObservableField<ArrayList<TrainService>> serviceList = new ObservableField<>();
+    public ObservableField<List<TrainService>> serviceList = new ObservableField<>();
     public ObservableBoolean isLoading = new ObservableBoolean();
     public ObservableInt errorState = new ObservableInt();
 
@@ -95,7 +96,7 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
                     public void onResponse(Call<StationSearchResult> call, retrofit2.Response<StationSearchResult> response) {
                         Toast.makeText(getApplication().getApplicationContext(), response.body().location.name, Toast.LENGTH_SHORT).show();
                         if(isArrivals){
-                            serviceList.set(response.body().services);
+                            serviceList.set(response.body().services.stream().filter(trainService -> trainService.locationDetail.crs != CrsCode).collect(Collectors.toList()));
                             //TODO Filter out services if the origin is the same as the current station
                         }
                         else{

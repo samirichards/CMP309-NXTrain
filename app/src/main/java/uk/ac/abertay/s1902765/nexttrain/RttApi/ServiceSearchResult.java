@@ -1,6 +1,5 @@
 package uk.ac.abertay.s1902765.nexttrain.RttApi;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class ServiceSearchResult {
     public String serviceUid;
@@ -13,9 +12,9 @@ public class ServiceSearchResult {
     public String atocCode;
     public String atocName;
     public boolean performanceMonitored;
-    public ArrayList<Origin> origin;
-    public ArrayList<Destination> destination;
-    public ArrayList<Location_Service> locations;
+    public List<Origin> origin;
+    public List<Destination> destination;
+    public List<Location_Service> locations;
     public boolean realtimeActivated;
     public String runningIdentity;
 }

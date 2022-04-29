@@ -105,14 +105,14 @@ public class Fragment_StationActivity_ListServices extends Fragment {
     }
 
     @BindingAdapter("data")
-    public static void setListServicesAdapterProperties(RecyclerView view, ArrayList<TrainService> items){
+    public static void setListServicesAdapterProperties(RecyclerView view, List<TrainService> items){
         ((StationActivity_ListServicesRecyclerAdapter)view.getAdapter()).setData(items);
     }
 }
 
 class StationActivity_ListServicesRecyclerAdapter extends RecyclerView.Adapter<StationActivity_ListServicesRecyclerAdapter.ViewHolder> {
 
-    private ArrayList<TrainService> localDataset;
+    private List<TrainService> localDataset;
     private boolean mIsArrival = false;
 
     public StationActivity_ListServicesRecyclerAdapter(Boolean isArrival){
@@ -120,7 +120,7 @@ class StationActivity_ListServicesRecyclerAdapter extends RecyclerView.Adapter<S
         mIsArrival = isArrival;
     }
 
-    public void setData(ArrayList<TrainService> items){
+    public void setData(List<TrainService> items){
         localDataset = items;
         notifyDataSetChanged();
     }
