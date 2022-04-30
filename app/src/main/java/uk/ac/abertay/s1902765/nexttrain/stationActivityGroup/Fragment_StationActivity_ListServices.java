@@ -170,7 +170,12 @@ class StationActivity_ListServicesRecyclerAdapter extends RecyclerView.Adapter<S
         if (mIsArrival){
             viewHolder.getServiceDestination().setText(localDataset.get(position).locationDetail.origin.get(0).description);
             viewHolder.getServiceHeadcode().setText(localDataset.get(position).trainIdentity);
-            viewHolder.getServicePlatformIndicator().setText("Platform " + localDataset.get(position).locationDetail.platform);
+            if(localDataset.get(position).serviceType == "bus"){
+                viewHolder.getServicePlatformIndicator().setText("Bus");
+            }
+            else{
+                viewHolder.getServicePlatformIndicator().setText("Platform " + localDataset.get(position).locationDetail.platform);
+            }
             viewHolder.getServiceTime().setText(localDataset.get(position).locationDetail.gbttBookedArrival);
             if(localDataset.get(position).locationDetail.gbttBookedArrival == localDataset.get(position).locationDetail.gbttBookedArrival){
                 viewHolder.getServiceStatusIndicator().setText("On Time");
@@ -193,7 +198,12 @@ class StationActivity_ListServicesRecyclerAdapter extends RecyclerView.Adapter<S
         else{
             viewHolder.getServiceDestination().setText(localDataset.get(position).locationDetail.destination.get(0).description);
             viewHolder.getServiceHeadcode().setText(localDataset.get(position).trainIdentity);
-            viewHolder.getServicePlatformIndicator().setText("Platform " + localDataset.get(position).locationDetail.platform);
+            if(localDataset.get(position).serviceType == "bus"){
+                viewHolder.getServicePlatformIndicator().setText("Bus");
+            }
+            else{
+                viewHolder.getServicePlatformIndicator().setText("Platform " + localDataset.get(position).locationDetail.platform);
+            }
             viewHolder.getServiceTime().setText(localDataset.get(position).locationDetail.gbttBookedDeparture);
             if(localDataset.get(position).locationDetail.gbttBookedDeparture == localDataset.get(position).locationDetail.realtimeDeparture){
                 viewHolder.getServiceStatusIndicator().setText("On Time");

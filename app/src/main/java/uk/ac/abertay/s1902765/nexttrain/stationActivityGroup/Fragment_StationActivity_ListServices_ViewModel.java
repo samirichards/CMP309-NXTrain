@@ -16,6 +16,7 @@ import androidx.lifecycle.AndroidViewModel;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import okhttp3.Credentials;
@@ -96,7 +97,8 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
                     public void onResponse(Call<StationSearchResult> call, retrofit2.Response<StationSearchResult> response) {
                         Toast.makeText(getApplication().getApplicationContext(), response.body().location.name, Toast.LENGTH_SHORT).show();
                         if(isArrivals){
-                            serviceList.set(response.body().services.stream().filter(trainService -> trainService.locationDetail.crs != CrsCode).collect(Collectors.toList()));
+                            Predicate<TrainService> removeOrigin = service -> service.locationDetail.crs != CrsCode && service.locationDetail.displayAs != "ORIGIN";
+                            serviceList.set(response.body().services.stream().filter(x-> !x.locationDetail.crs.equals(CrsCode)).collect(Collectors.toList()));
                             //TODO Filter out services if the origin is the same as the current station
                         }
                         else{
