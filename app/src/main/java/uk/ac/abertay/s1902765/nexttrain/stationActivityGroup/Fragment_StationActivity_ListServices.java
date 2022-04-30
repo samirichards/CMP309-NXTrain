@@ -196,7 +196,8 @@ class StationActivity_ListServicesRecyclerAdapter extends RecyclerView.Adapter<S
             });
         }
         else{
-            viewHolder.getServiceDestination().setText(localDataset.get(position).locationDetail.destination.get(0).description);
+            viewHolder.getServiceDestination().setText(localDataset.get(position).locationDetail.destination.get((localDataset.get(position).locationDetail.destination.size()-1)).description);
+            //TODO, figure out how to deal with trains like on Merseyrail which go around a loop and come back to their orign
             viewHolder.getServiceHeadcode().setText(localDataset.get(position).trainIdentity);
             if(localDataset.get(position).serviceType == "bus"){
                 viewHolder.getServicePlatformIndicator().setText("Bus");

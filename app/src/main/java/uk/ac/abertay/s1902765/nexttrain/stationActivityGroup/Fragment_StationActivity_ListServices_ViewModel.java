@@ -98,8 +98,10 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
                         Toast.makeText(getApplication().getApplicationContext(), response.body().location.name, Toast.LENGTH_SHORT).show();
                         if(isArrivals){
                             Predicate<TrainService> removeOrigin = service -> service.locationDetail.crs != CrsCode && service.locationDetail.displayAs != "ORIGIN";
-                            serviceList.set(response.body().services.stream().filter(x-> !x.locationDetail.crs.equals(CrsCode)).collect(Collectors.toList()));
-                            //TODO Filter out services if the origin is the same as the current station
+                            serviceList.set(response.body().services.stream().filter(x-> !x.locationDetail.origin.get(x.locationDetail.origin.size() - 1).tiploc.equals(x.locationDetail.tiploc)).collect(Collectors.toList()));
+                            //TODO This works, however there are edge cases still, On Merseyrail the arrival is the same as the origin for servies on the wirral line
+                            //Due to going around the loop, need to figure out how to take account of this, as well as display the destination as the correct one
+                            //For example Destination as Liverpool Central instead of West Kirby for West Kirby wirral line trains
                         }
                         else{
                             serviceList.set(response.body().services);
