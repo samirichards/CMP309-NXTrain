@@ -31,5 +31,9 @@
 
     <string name="menu_refresh">Refresh</string>
 
+    <string name="fragment_stationActivity_listServices_noServiceDepartures">No Services from this station at this time</string>
+    <string name="fragment_stationActivity_listServices_noServiceArrivals">No Services to this station at this time</string>
+    <string name="fragment_stationActivity_listServices_unableToFetch">Could not fetch any services for this station</string>
+
 
 </resources>

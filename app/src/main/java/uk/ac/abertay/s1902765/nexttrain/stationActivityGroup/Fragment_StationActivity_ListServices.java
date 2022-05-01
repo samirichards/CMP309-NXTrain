@@ -1,7 +1,6 @@
 package uk.ac.abertay.s1902765.nexttrain.stationActivityGroup;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -23,9 +20,7 @@ import java.util.List;
 
 import uk.ac.abertay.s1902765.nexttrain.R;
 import uk.ac.abertay.s1902765.nexttrain.RttApi.TrainService;
-import uk.ac.abertay.s1902765.nexttrain.StationItem;
 import uk.ac.abertay.s1902765.nexttrain.databinding.FragmentStationActivityListServicesBinding;
-import uk.ac.abertay.s1902765.nexttrain.databinding.StationSearchitemLayoutBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,7 +41,7 @@ public class Fragment_StationActivity_ListServices extends Fragment {
     private String mTitle;
 
     public Fragment_StationActivity_ListServices() {
-        // Required empty public constructor
+
     }
 
     /**
@@ -90,7 +85,6 @@ public class Fragment_StationActivity_ListServices extends Fragment {
         }
         model = new ViewModelProvider(this).get(Fragment_StationActivity_ListServices_ViewModel.class);
         model.setModelParameters(mStationCode, mIsArrival);
-        Toast.makeText(getActivity().getApplicationContext(), mTitle + " fragment created", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -38,5 +38,16 @@
             app:layout_constraintStart_toStartOf="@+id/fragment_stationActivity_listServices_recyclerView"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/fragment_stationActivity_listServices_noServicesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.noServicesText}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{viewmodel.noServicesVisibility, default=gone}"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

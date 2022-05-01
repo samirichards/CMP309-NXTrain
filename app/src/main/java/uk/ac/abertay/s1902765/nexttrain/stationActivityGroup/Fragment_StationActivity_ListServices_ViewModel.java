@@ -28,6 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import uk.ac.abertay.s1902765.nexttrain.R;
 import uk.ac.abertay.s1902765.nexttrain.RttApi.RTTInterface;
 import uk.ac.abertay.s1902765.nexttrain.RttApi.StationSearchResult;
 import uk.ac.abertay.s1902765.nexttrain.RttApi.TrainService;
@@ -44,7 +45,9 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
 
     public ObservableField<List<TrainService>> serviceList = new ObservableField<>();
     public ObservableBoolean isLoading = new ObservableBoolean();
+    public ObservableBoolean noServices = new ObservableBoolean();
     public ObservableInt errorState = new ObservableInt();
+    public ObservableField<String> noServicesText = new ObservableField<>();
 
     private Boolean isArrivals = false;
     private String CrsCode = "DEE";
@@ -55,6 +58,7 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
         httpClient = new OkHttpClient().newBuilder().addInterceptor(new BasicAuthInterceptor(AuthUsername, AuthPassword)).build();
         retrofitClient = new Retrofit.Builder().baseUrl(API_Endpoint).addConverterFactory(GsonConverterFactory.create()).client(httpClient).build();
         api = retrofitClient.create(RTTInterface.class);
+        noServices.set(false);
     }
 
     public void setModelParameters(String _crsCode, Boolean _isArrival){
@@ -66,6 +70,11 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
     @Bindable
     public int getLoadVisibility(){
         return isLoading.get() ? View.VISIBLE : View.GONE;
+    }
+
+    @Bindable
+    public int getNoServicesVisibility(){
+        return noServices.get() ? View.VISIBLE : View.GONE;
     }
 
     @Override
@@ -96,15 +105,29 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
                     @Override
                     public void onResponse(Call<StationSearchResult> call, retrofit2.Response<StationSearchResult> response) {
                         Toast.makeText(getApplication().getApplicationContext(), response.body().location.name, Toast.LENGTH_SHORT).show();
+                        Predicate<TrainService> isPublic = trainService -> trainService.locationDetail.isPublicCall == true;
+                        if(response.body().services == null){
+                            noServices.set(true);
+                            isLoading.set(false);
+                            if(isArrivals){
+                                noServicesText.set(getApplication().getString(R.string.fragment_stationActivity_listServices_noServiceArrivals));
+                            }
+                            else{
+                                noServicesText.set(getApplication().getString(R.string.fragment_stationActivity_listServices_noServiceDepartures));
+                            }
+                            notifyChange();
+                            return;
+                        }
                         if(isArrivals){
                             Predicate<TrainService> removeOrigin = service -> service.locationDetail.crs != CrsCode && service.locationDetail.displayAs != "ORIGIN";
-                            serviceList.set(response.body().services.stream().filter(x-> !x.locationDetail.origin.get(x.locationDetail.origin.size() - 1).tiploc.equals(x.locationDetail.tiploc)).collect(Collectors.toList()));
+                            serviceList.set(response.body().services.stream().filter(isPublic).collect(Collectors.toList()));
                             //TODO This works, however there are edge cases still, On Merseyrail the arrival is the same as the origin for servies on the wirral line
                             //Due to going around the loop, need to figure out how to take account of this, as well as display the destination as the correct one
                             //For example Destination as Liverpool Central instead of West Kirby for West Kirby wirral line trains
+                            //For now I'm just going to accept this, there is now a new check for if the service is public which *should* remove all the technical moves around dundee for example
                         }
                         else{
-                            serviceList.set(response.body().services);
+                            serviceList.set(response.body().services.stream().filter(isPublic).collect(Collectors.toList()));
                         }
                         isLoading.set(false);
                         errorState.set(0);
@@ -116,6 +139,8 @@ public class Fragment_StationActivity_ListServices_ViewModel extends AndroidView
                         Toast.makeText(getApplication().getApplicationContext(), "Service fetch failed", Toast.LENGTH_SHORT).show();
                         isLoading.set(false);
                         errorState.set(1);
+                        noServices.set(true);
+                        noServicesText.set(getApplication().getString(R.string.fragment_stationActivity_listServices_unableToFetch));
                         notifyChange();
                     }
                 });
