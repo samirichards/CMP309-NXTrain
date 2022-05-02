@@ -16,4 +16,45 @@
     <color name="secondaryDarkColor">#ba000d</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
+
+    <!-- TOC Colours -->
+    <color name="TOC_Colour_VT">#004354</color>
+    <color name="TOC_Colour_CC">#b7007c</color>
+    <color name="TOC_Colour_CS">#1d2e35</color>
+    <color name="TOC_Colour_CH">#00bfff</color>
+    <color name="TOC_Colour_XC">#660f21</color>
+    <color name="TOC_Colour_EM">#703e69</color>
+    <color name="TOC_Colour_ES">#ffd700</color>
+    <color name="TOC_Colour_GX">#EB1E2D</color>
+    <color name="TOC_Colour_XP">#36B5E7</color>
+    <color name="TOC_Colour_GC">#1d1d1b</color>
+    <color name="TOC_Colour_GN">#43165c</color>
+    <color name="TOC_Colour_GW">#0a493e</color>
+    <color name="TOC_Colour_LE">#d70428</color>
+    <color name="TOC_Colour_HX">#532e63</color>
+    <color name="TOC_Colour_HT">#de005c</color>
+    <color name="TOC_Colour_IL">#1e90ff</color>
+    <color name="TOC_Colour_GR">#bf0000</color>
+    <color name="TOC_Colour_LN">#00bf6f</color>
+    <color name="TOC_Colour_LO">#e87722</color>
+    <color name="TOC_Colour_XS">#150a4d</color>
+    <color name="TOC_Colour_LT">#DE2110</color>
+    <color name="TOC_Colour_LD">#2b6ef5</color>
+    <color name="TOC_Colour_ME">#fff200</color>
+    <color name="TOC_Colour_ZN">#003466</color>
+    <color name="TOC_Colour_XX">#003466</color>
+    <color name="TOC_Colour_NR">#f07e26</color>
+    <color name="TOC_Colour_NT">#0f0d78</color>
+    <color name="TOC_Colour_SR">#173f85</color>
+    <color name="TOC_Colour_SW">#24398c</color>
+    <color name="TOC_Colour_SE">#389cff</color>
+    <color name="TOC_Colour_SN">#8cc63e</color>
+    <color name="TOC_Colour_SX">#6b717a</color>
+    <color name="TOC_Colour_XR">#0012aa</color>
+    <color name="TOC_Colour_TL">#ff5aa4</color>
+    <color name="TOC_Colour_TP">#09a4ec</color>
+    <color name="TOC_Colour_GM">#272725</color>
+    <color name="TOC_Colour_AW">#ff4500</color>
+    <color name="TOC_Colour_WM">#ff8200</color>
+    <color name="TOC_Colour_LM">#00bf6f</color>
 </resources>
