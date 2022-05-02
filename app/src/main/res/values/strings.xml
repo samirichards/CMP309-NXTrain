@@ -34,6 +34,12 @@
     <string name="fragment_stationActivity_listServices_noServiceDepartures">No Services from this station at this time</string>
     <string name="fragment_stationActivity_listServices_noServiceArrivals">No Services to this station at this time</string>
     <string name="fragment_stationActivity_listServices_unableToFetch">Could not fetch any services for this station</string>
+    <string name="title_activity_service_detail">serviceDetailActivity</string>
+    <string name="activity_service_detail_serviceLoadError">Could not load this service</string>
+    <string name="activity_service_detail_menu_addJourney">Add Journey</string>
+    <string name="activity_service_detail_menu_operatorDetails">Operator Details</string>
+    <string name="activity_service_detail_menu_notifications">Notifications</string>
+
 
 
 </resources>

@@ -1,12 +1,12 @@
 package uk.ac.abertay.s1902765.nexttrain.stationActivityGroup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
@@ -21,6 +21,7 @@ import java.util.List;
 import uk.ac.abertay.s1902765.nexttrain.R;
 import uk.ac.abertay.s1902765.nexttrain.RttApi.TrainService;
 import uk.ac.abertay.s1902765.nexttrain.databinding.FragmentStationActivityListServicesBinding;
+import uk.ac.abertay.s1902765.nexttrain.serviceDetailGroup.ServiceDetailActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -163,17 +164,17 @@ public class Fragment_StationActivity_ListServices extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull StationActivity_ListServicesRecyclerAdapter.ViewHolder viewHolder, int position) {
+            //TODO remove duplication here
             String resName = "TOC_Colour_" + localDataset.get(position).atocCode;
             viewHolder.getServiceBrandColour().setBackground(getContext().getApplicationContext().getDrawable(getContext().getApplicationContext().getResources().getIdentifier(resName, "color", getContext().getApplicationContext().getPackageName())));
+            if(localDataset.get(position).serviceType == "bus"){
+                viewHolder.getServicePlatformIndicator().setText("Bus");
+            }
+            else{
+                viewHolder.getServicePlatformIndicator().setText("Platform " + localDataset.get(position).locationDetail.platform);
+            }
             if (mIsArrival){
                 viewHolder.getServiceDestination().setText(localDataset.get(position).locationDetail.origin.get(0).description);
-                viewHolder.getServiceHeadcode().setText(localDataset.get(position).trainIdentity);
-                if(localDataset.get(position).serviceType == "bus"){
-                    viewHolder.getServicePlatformIndicator().setText("Bus");
-                }
-                else{
-                    viewHolder.getServicePlatformIndicator().setText("Platform " + localDataset.get(position).locationDetail.platform);
-                }
                 viewHolder.getServiceTime().setText(localDataset.get(position).locationDetail.gbttBookedArrival);
                 if(localDataset.get(position).locationDetail.gbttBookedArrival == localDataset.get(position).locationDetail.gbttBookedArrival){
                     viewHolder.getServiceStatusIndicator().setText("On Time");
@@ -182,27 +183,9 @@ public class Fragment_StationActivity_ListServices extends Fragment {
                     viewHolder.getServiceStatusIndicator().setText("TBC");
                 }
                 //TODO figure out how to display if a service is running Via a particular station
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //Intent openStationActivity = new Intent(view.getContext(), StationActivity.class);
-                        //openStationActivity.putExtra("stationCode", localDataset.get(viewHolder.getAdapterPosition()).CrsCode);
-                        //openStationActivity.putExtra("stationName", localDataset.get(viewHolder.getAdapterPosition()).Name);
-                        //view.getContext().startActivity(openStationActivity);
-                        Toast.makeText(view.getContext(), localDataset.get(viewHolder.getAdapterPosition()).locationDetail.origin.get(0).description, Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
             else{
                 viewHolder.getServiceDestination().setText(localDataset.get(position).locationDetail.destination.get((localDataset.get(position).locationDetail.destination.size()-1)).description);
-                //TODO, figure out how to deal with trains like on Merseyrail which go around a loop and come back to their orign
-                viewHolder.getServiceHeadcode().setText(localDataset.get(position).trainIdentity);
-                if(localDataset.get(position).serviceType == "bus"){
-                    viewHolder.getServicePlatformIndicator().setText("Bus");
-                }
-                else{
-                    viewHolder.getServicePlatformIndicator().setText("Platform " + localDataset.get(position).locationDetail.platform);
-                }
                 viewHolder.getServiceTime().setText(localDataset.get(position).locationDetail.gbttBookedDeparture);
                 if(localDataset.get(position).locationDetail.gbttBookedDeparture == localDataset.get(position).locationDetail.realtimeDeparture){
                     viewHolder.getServiceStatusIndicator().setText("On Time");
@@ -210,17 +193,16 @@ public class Fragment_StationActivity_ListServices extends Fragment {
                 else{
                     viewHolder.getServiceStatusIndicator().setText("TBC");
                 }
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //Intent openStationActivity = new Intent(view.getContext(), StationActivity.class);
-                        //openStationActivity.putExtra("stationCode", localDataset.get(viewHolder.getAdapterPosition()).CrsCode);
-                        //openStationActivity.putExtra("stationName", localDataset.get(viewHolder.getAdapterPosition()).Name);
-                        //view.getContext().startActivity(openStationActivity);
-                        Toast.makeText(view.getContext(), localDataset.get(viewHolder.getAdapterPosition()).locationDetail.destination.get(0).description, Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent openServiceDetail = new Intent(view.getContext(), ServiceDetailActivity.class);
+                    openServiceDetail.putExtra("serviceUid", localDataset.get(position).serviceUid);
+                    openServiceDetail.putExtra("runDate", localDataset.get(position).runDate);
+                    getContext().startActivity(openServiceDetail);
+                }
+            });
         }
 
         @Override

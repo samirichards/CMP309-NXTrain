@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="serviceDetailViewModel"
+            type="uk.ac.abertay.s1902765.nexttrain.serviceDetailGroup.ServiceDetailViewModel" />
+        <import type="android.view.View"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".serviceDetailGroup.ServiceDetailActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                style="?attr/collapsingToolbarLayoutMediumStyle"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/collapsingToolbarLayoutMediumSize"
+                app:maxLines="3">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/serviceDetail_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                    app:title="@{serviceDetailViewModel.pageTitle}"
+                    app:menu="@menu/service_detail_menu"/>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/serviceDetail_loadingIndicator"
+            android:indeterminate="true"
+            android:visibility="@{serviceDetailViewModel.isLoading ? View.VISIBLE : View.GONE, default=gone}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/serviceDetail_errorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{serviceDetailViewModel.isError ? View.VISIBLE : View.GONE, default=gone}"
+            android:text="@string/activity_service_detail_serviceLoadError"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

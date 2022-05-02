@@ -31,7 +31,7 @@ public interface RTTInterface {
     @GET("json/search/{CRS}/{YEAR}/{MONTH}/{DAY}/{TIME}/arrivals")
     Call<StationSearchResult> getArrivalsByDateAndTime(@Path("CRS") String CrsCode, @Path("YEAR") Integer Year, @Path("MONTH") Integer Month, @Path("DAY") Integer Day, @Path("TIME") Integer Time);
 
-    @GET("json/service/<serviceUid>/<year>/<month>/<day>")
-    Call<StationSearchResult> getServiceDetail(@Path("CRS") String CrsCode, @Path("YEAR") Integer Year, @Path("MONTH") Integer Month, @Path("DAY") Integer Day);
+    @GET("json/service/{UID}/{YEAR}/{MONTH}/{DAY}")
+    Call<ServiceSearchResult> getServiceDetail(@Path("UID") String UID, @Path("YEAR") String Year, @Path("MONTH") String Month, @Path("DAY") String Day);
 
 }
