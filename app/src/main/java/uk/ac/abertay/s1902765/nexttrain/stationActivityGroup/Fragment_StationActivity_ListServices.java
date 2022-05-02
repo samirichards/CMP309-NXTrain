@@ -102,130 +102,135 @@ public class Fragment_StationActivity_ListServices extends Fragment {
     public static void setListServicesAdapterProperties(RecyclerView view, List<TrainService> items){
         ((StationActivity_ListServicesRecyclerAdapter)view.getAdapter()).setData(items);
     }
-}
 
-class StationActivity_ListServicesRecyclerAdapter extends RecyclerView.Adapter<StationActivity_ListServicesRecyclerAdapter.ViewHolder> {
+    class StationActivity_ListServicesRecyclerAdapter extends RecyclerView.Adapter<StationActivity_ListServicesRecyclerAdapter.ViewHolder> {
 
-    private List<TrainService> localDataset;
-    private boolean mIsArrival = false;
+        private List<TrainService> localDataset;
+        private boolean mIsArrival = false;
 
-    public StationActivity_ListServicesRecyclerAdapter(Boolean isArrival){
-        localDataset = new ArrayList<TrainService>();
-        mIsArrival = isArrival;
-    }
-
-    public void setData(List<TrainService> items){
-        localDataset = items;
-        notifyDataSetChanged();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView serviceDestination;
-        public final TextView serviceHeadcode;
-        public final TextView serviceStatusIndicator;
-        public final TextView serviceTime;
-        public final TextView servicePlatformIndicator;
-        public final TextView serviceVia;
-        private final Context context;
-
-        public ViewHolder(View view) {
-            super(view);
-            // Define click listener for the ViewHolder's View
-            serviceDestination = (TextView) view.findViewById(R.id.serviceDestination);
-            serviceHeadcode = (TextView) view.findViewById(R.id.serviceHeadcode);
-            serviceStatusIndicator = (TextView) view.findViewById(R.id.serviceStatusIndicator);
-            serviceTime = (TextView) view.findViewById(R.id.serviceTimeIndicator);
-            servicePlatformIndicator = (TextView) view.findViewById(R.id.servicePlatformIndicator);
-            serviceVia = (TextView) view.findViewById(R.id.serviceVia);
-            context = itemView.getContext();
+        public StationActivity_ListServicesRecyclerAdapter(Boolean isArrival){
+            localDataset = new ArrayList<TrainService>();
+            mIsArrival = isArrival;
         }
 
-        public TextView getServiceDestination() {
-            return serviceDestination;
+        public void setData(List<TrainService> items){
+            localDataset = items;
+            notifyDataSetChanged();
         }
-        public TextView getServiceHeadcode(){
-            return serviceHeadcode;
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public final TextView serviceDestination;
+            public final TextView serviceHeadcode;
+            public final TextView serviceStatusIndicator;
+            public final TextView serviceTime;
+            public final TextView servicePlatformIndicator;
+            public final TextView serviceVia;
+            public final View serviceBrandColour;
+            private final Context context;
+
+            public ViewHolder(View view) {
+                super(view);
+                // Define click listener for the ViewHolder's View
+                serviceDestination = (TextView) view.findViewById(R.id.serviceDestination);
+                serviceHeadcode = (TextView) view.findViewById(R.id.serviceHeadcode);
+                serviceStatusIndicator = (TextView) view.findViewById(R.id.serviceStatusIndicator);
+                serviceTime = (TextView) view.findViewById(R.id.serviceTimeIndicator);
+                servicePlatformIndicator = (TextView) view.findViewById(R.id.servicePlatformIndicator);
+                serviceVia = (TextView) view.findViewById(R.id.serviceVia);
+                serviceBrandColour = (View) view.findViewById(R.id.serviceBrandColour);
+                context = itemView.getContext();
+            }
+
+            public TextView getServiceDestination() {
+                return serviceDestination;
+            }
+            public TextView getServiceHeadcode(){
+                return serviceHeadcode;
+            }
+            public TextView getServiceStatusIndicator(){return serviceStatusIndicator;}
+            public TextView getServiceTime(){return serviceTime;}
+            public TextView getServicePlatformIndicator(){return servicePlatformIndicator;}
+            public TextView getServiceVia(){return serviceVia;}
+            public View getServiceBrandColour(){return serviceBrandColour;}
         }
-        public TextView getServiceStatusIndicator(){return serviceStatusIndicator;}
-        public TextView getServiceTime(){return serviceTime;}
-        public TextView getServicePlatformIndicator(){return servicePlatformIndicator;}
-        public TextView getServiceVia(){return serviceVia;}
-    }
 
-    @NonNull
-    @Override
-    public StationActivity_ListServicesRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.station_activity_servicedetail_item, parent, false);
-        return new StationActivity_ListServicesRecyclerAdapter.ViewHolder(view);
-    }
+        @NonNull
+        @Override
+        public StationActivity_ListServicesRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.station_activity_servicedetail_item, parent, false);
+            return new StationActivity_ListServicesRecyclerAdapter.ViewHolder(view);
+        }
 
-    @Override
-    public void onBindViewHolder(@NonNull StationActivity_ListServicesRecyclerAdapter.ViewHolder viewHolder, int position) {
-        if (mIsArrival){
-            viewHolder.getServiceDestination().setText(localDataset.get(position).locationDetail.origin.get(0).description);
-            viewHolder.getServiceHeadcode().setText(localDataset.get(position).trainIdentity);
-            if(localDataset.get(position).serviceType == "bus"){
-                viewHolder.getServicePlatformIndicator().setText("Bus");
-            }
-            else{
-                viewHolder.getServicePlatformIndicator().setText("Platform " + localDataset.get(position).locationDetail.platform);
-            }
-            viewHolder.getServiceTime().setText(localDataset.get(position).locationDetail.gbttBookedArrival);
-            if(localDataset.get(position).locationDetail.gbttBookedArrival == localDataset.get(position).locationDetail.gbttBookedArrival){
-                viewHolder.getServiceStatusIndicator().setText("On Time");
-            }
-            else{
-                viewHolder.getServiceStatusIndicator().setText("TBC");
-            }
-            //TODO figure out how to display if a service is running Via a particular station
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Intent openStationActivity = new Intent(view.getContext(), StationActivity.class);
-                    //openStationActivity.putExtra("stationCode", localDataset.get(viewHolder.getAdapterPosition()).CrsCode);
-                    //openStationActivity.putExtra("stationName", localDataset.get(viewHolder.getAdapterPosition()).Name);
-                    //view.getContext().startActivity(openStationActivity);
-                    Toast.makeText(view.getContext(), localDataset.get(viewHolder.getAdapterPosition()).locationDetail.origin.get(0).description, Toast.LENGTH_SHORT).show();
+        @Override
+        public void onBindViewHolder(@NonNull StationActivity_ListServicesRecyclerAdapter.ViewHolder viewHolder, int position) {
+            String resName = "TOC_Colour_" + localDataset.get(position).atocCode;
+            viewHolder.getServiceBrandColour().setBackground(getContext().getApplicationContext().getDrawable(getContext().getApplicationContext().getResources().getIdentifier(resName, "color", getContext().getApplicationContext().getPackageName())));
+            if (mIsArrival){
+                viewHolder.getServiceDestination().setText(localDataset.get(position).locationDetail.origin.get(0).description);
+                viewHolder.getServiceHeadcode().setText(localDataset.get(position).trainIdentity);
+                if(localDataset.get(position).serviceType == "bus"){
+                    viewHolder.getServicePlatformIndicator().setText("Bus");
                 }
-            });
-        }
-        else{
-            viewHolder.getServiceDestination().setText(localDataset.get(position).locationDetail.destination.get((localDataset.get(position).locationDetail.destination.size()-1)).description);
-            //TODO, figure out how to deal with trains like on Merseyrail which go around a loop and come back to their orign
-            viewHolder.getServiceHeadcode().setText(localDataset.get(position).trainIdentity);
-            if(localDataset.get(position).serviceType == "bus"){
-                viewHolder.getServicePlatformIndicator().setText("Bus");
-            }
-            else{
-                viewHolder.getServicePlatformIndicator().setText("Platform " + localDataset.get(position).locationDetail.platform);
-            }
-            viewHolder.getServiceTime().setText(localDataset.get(position).locationDetail.gbttBookedDeparture);
-            if(localDataset.get(position).locationDetail.gbttBookedDeparture == localDataset.get(position).locationDetail.realtimeDeparture){
-                viewHolder.getServiceStatusIndicator().setText("On Time");
-            }
-            else{
-                viewHolder.getServiceStatusIndicator().setText("TBC");
-            }
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Intent openStationActivity = new Intent(view.getContext(), StationActivity.class);
-                    //openStationActivity.putExtra("stationCode", localDataset.get(viewHolder.getAdapterPosition()).CrsCode);
-                    //openStationActivity.putExtra("stationName", localDataset.get(viewHolder.getAdapterPosition()).Name);
-                    //view.getContext().startActivity(openStationActivity);
-                    Toast.makeText(view.getContext(), localDataset.get(viewHolder.getAdapterPosition()).locationDetail.destination.get(0).description, Toast.LENGTH_SHORT).show();
+                else{
+                    viewHolder.getServicePlatformIndicator().setText("Platform " + localDataset.get(position).locationDetail.platform);
                 }
-            });
+                viewHolder.getServiceTime().setText(localDataset.get(position).locationDetail.gbttBookedArrival);
+                if(localDataset.get(position).locationDetail.gbttBookedArrival == localDataset.get(position).locationDetail.gbttBookedArrival){
+                    viewHolder.getServiceStatusIndicator().setText("On Time");
+                }
+                else{
+                    viewHolder.getServiceStatusIndicator().setText("TBC");
+                }
+                //TODO figure out how to display if a service is running Via a particular station
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Intent openStationActivity = new Intent(view.getContext(), StationActivity.class);
+                        //openStationActivity.putExtra("stationCode", localDataset.get(viewHolder.getAdapterPosition()).CrsCode);
+                        //openStationActivity.putExtra("stationName", localDataset.get(viewHolder.getAdapterPosition()).Name);
+                        //view.getContext().startActivity(openStationActivity);
+                        Toast.makeText(view.getContext(), localDataset.get(viewHolder.getAdapterPosition()).locationDetail.origin.get(0).description, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            else{
+                viewHolder.getServiceDestination().setText(localDataset.get(position).locationDetail.destination.get((localDataset.get(position).locationDetail.destination.size()-1)).description);
+                //TODO, figure out how to deal with trains like on Merseyrail which go around a loop and come back to their orign
+                viewHolder.getServiceHeadcode().setText(localDataset.get(position).trainIdentity);
+                if(localDataset.get(position).serviceType == "bus"){
+                    viewHolder.getServicePlatformIndicator().setText("Bus");
+                }
+                else{
+                    viewHolder.getServicePlatformIndicator().setText("Platform " + localDataset.get(position).locationDetail.platform);
+                }
+                viewHolder.getServiceTime().setText(localDataset.get(position).locationDetail.gbttBookedDeparture);
+                if(localDataset.get(position).locationDetail.gbttBookedDeparture == localDataset.get(position).locationDetail.realtimeDeparture){
+                    viewHolder.getServiceStatusIndicator().setText("On Time");
+                }
+                else{
+                    viewHolder.getServiceStatusIndicator().setText("TBC");
+                }
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Intent openStationActivity = new Intent(view.getContext(), StationActivity.class);
+                        //openStationActivity.putExtra("stationCode", localDataset.get(viewHolder.getAdapterPosition()).CrsCode);
+                        //openStationActivity.putExtra("stationName", localDataset.get(viewHolder.getAdapterPosition()).Name);
+                        //view.getContext().startActivity(openStationActivity);
+                        Toast.makeText(view.getContext(), localDataset.get(viewHolder.getAdapterPosition()).locationDetail.destination.get(0).description, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         }
-    }
 
-    @Override
-    public int getItemCount() {
-        if (localDataset != null){
-            return this.localDataset.size();
-        }
-        else {
-            return 0;
+        @Override
+        public int getItemCount() {
+            if (localDataset != null){
+                return this.localDataset.size();
+            }
+            else {
+                return 0;
+            }
         }
     }
 }
