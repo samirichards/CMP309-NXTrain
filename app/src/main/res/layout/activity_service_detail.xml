@@ -14,6 +14,7 @@
         tools:context=".serviceDetailGroup.ServiceDetailActivity">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
@@ -31,13 +32,24 @@
                     android:id="@+id/serviceDetail_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    app:menu="@menu/service_detail_menu"
                     app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-                    app:title="@{serviceDetailViewModel.pageTitle}"
-                    app:menu="@menu/service_detail_menu"/>
+                    app:title="@{serviceDetailViewModel.pageTitle}" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
+
+        <ListView
+            android:id="@+id/serviceDetail_stationList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            tools:listitem="@layout/activity_service_detail_stationlist_item"
+            app:layout_constraintBottom_toBottomOf="parent"
+            data="@{serviceDetailViewModel.callingPoints}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/serviceDetail_loadingIndicator"

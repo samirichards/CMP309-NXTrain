@@ -12,6 +12,7 @@ import androidx.databinding.PropertyChangeRegistry;
 import androidx.lifecycle.AndroidViewModel;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Credentials;
 import okhttp3.Interceptor;
@@ -22,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import uk.ac.abertay.s1902765.nexttrain.RttApi.Location_Service;
 import uk.ac.abertay.s1902765.nexttrain.RttApi.RTTInterface;
 import uk.ac.abertay.s1902765.nexttrain.RttApi.ServiceSearchResult;
 
@@ -40,6 +42,7 @@ public class ServiceDetailViewModel extends AndroidViewModel implements Observab
     public ObservableBoolean isError = new ObservableBoolean();
     public ObservableField<ServiceSearchResult> currentService = new ObservableField<>();
     public ObservableField<Spanned> pageTitle = new ObservableField<>();
+    public ObservableField<List<Location_Service>> callingPoints = new ObservableField<>();
 
     public ServiceDetailViewModel(@NonNull Application application) {
         super(application);
@@ -68,6 +71,7 @@ public class ServiceDetailViewModel extends AndroidViewModel implements Observab
                         if (response.body() != null){
                             currentService.set(response.body());
                             String titleText = "<b>"+currentService.get().atocName + "</b> service to <b>" + currentService.get().destination.get(0).description+"</b>";
+                            callingPoints.set(currentService.get().locations);
                             pageTitle.set(HtmlCompat.fromHtml(titleText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                             isLoading.set(false);
                             isError.set(false);
