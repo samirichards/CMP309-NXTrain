@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
         binding.setServiceDetailViewModel(model);
         headerBinding = ActivityServiceDetailStationlistHeaderBinding.inflate(getLayoutInflater());
         binding.serviceDetailStationList.addHeaderView(headerBinding.getRoot());
+        binding.serviceDetailStationList.setAdapter(new ServiceDetailActivity_StationListAdapter());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.serviceDetailToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -44,7 +46,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
     private void getViewBundledInfo() {
         final Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            model.setServiceParams(extras.getString("serviceUid"), extras.getString("runDate"));
+            model.setServiceParams(extras.getString("serviceUid"), extras.getString("runDate"), extras.getString("TOC"));
         }
     }
 
@@ -63,7 +65,8 @@ public class ServiceDetailActivity extends AppCompatActivity {
 
     @BindingAdapter("data")
     public static void setStationListAdapterProperties(ListView view, List<Location_Service> items){
-        ((ServiceDetailActivity_StationListAdapter)view.getAdapter()).setData(items);
+        ((ServiceDetailActivity_StationListAdapter)((HeaderViewListAdapter)view.getAdapter()).getWrappedAdapter()).setData(items);
+        //((ServiceDetailActivity_StationListAdapter)view.getAdapter()).setData(items);
     }
 
     class ServiceDetailActivity_StationListAdapter extends BaseAdapter {
@@ -76,7 +79,10 @@ public class ServiceDetailActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return mLocalData.size();
+            if(mLocalData != null){
+                return mLocalData.size();
+            }
+            return 0;
         }
 
         @Override
@@ -101,12 +107,26 @@ public class ServiceDetailActivity extends AppCompatActivity {
             else {
                 binding = (ActivityServiceDetailStationlistItemBinding) result.getTag();
             }
-            binding.serviceDetailStationName.setText(mLocalData.get(position).description);
-            binding.serviceDetailStationPlatform.setText(mLocalData.get(position).platform);
-            binding.serviceDetailStationPlatform.setVisibility(View.VISIBLE);
+            binding.serviceDetailStationName.setText(mLocalData.get(position).description + " (" + mLocalData.get(position).crs + ")");
+            if(mLocalData.get(position).platform != null){
+                //TODO make this use strings resource
+                binding.serviceDetailStationPlatform.setText("Platform " + mLocalData.get(position).platform);
+                binding.serviceDetailStationPlatform.setVisibility(View.VISIBLE);
+            }
+            else{
+                binding.serviceDetailStationPlatform.setVisibility(View.GONE);
+            }
             binding.serviceDetailMainTimeIndicator.setText(mLocalData.get(position).gbttBookedDeparture);
-            binding.serviceDetailExpectedTimeIndicator.setText(mLocalData.get(position).realtimeDeparture);
-            binding.serviceDetailExpectedTimeIndicator.setVisibility(View.VISIBLE);
+            if (mLocalData.get(position).realtimeDeparture != null){
+                binding.serviceDetailExpectedTimeIndicator.setText(mLocalData.get(position).realtimeDeparture);
+                binding.serviceDetailExpectedTimeIndicator.setVisibility(View.VISIBLE);
+            }
+            else{
+                binding.serviceDetailExpectedTimeIndicator.setVisibility(View.GONE);
+            }
+
+            String resName = "TOC_Colour_" + model.ServiceTOC;
+            binding.serviceDetailStationIndicator.setBackground(binding.getRoot().getContext().getApplicationContext().getDrawable(binding.getRoot().getContext().getApplicationContext().getResources().getIdentifier(resName, "color", binding.getRoot().getContext().getApplicationContext().getPackageName())));
             //TODO there's some missing stuff here, add the journey node things as well as checks for if it's arrival or departure
             //Or just do both with arrival being faint or something??
             return result;

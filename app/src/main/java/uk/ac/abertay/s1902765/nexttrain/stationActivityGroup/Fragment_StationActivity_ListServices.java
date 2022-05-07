@@ -200,6 +200,7 @@ public class Fragment_StationActivity_ListServices extends Fragment {
                     Intent openServiceDetail = new Intent(view.getContext(), ServiceDetailActivity.class);
                     openServiceDetail.putExtra("serviceUid", localDataset.get(position).serviceUid);
                     openServiceDetail.putExtra("runDate", localDataset.get(position).runDate);
+                    openServiceDetail.putExtra("TOC", localDataset.get(position).atocCode);
                     getContext().startActivity(openServiceDetail);
                 }
             });

@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/samir/Documents/AndroidDev/CMP309/CMP309-NXTrain/app/src/main/res/layout/activity_build_database.xml" value="0.5" />
+        <entry key="..\:/Users/samir/Documents/AndroidDev/CMP309/CMP309-NXTrain/app/src/main/res/layout/activity_service_detail.xml" value="0.259375" />
+        <entry key="..\:/Users/samir/Documents/AndroidDev/CMP309/CMP309-NXTrain/app/src/main/res/layout/activity_service_detail_stationlist_item.xml" value="0.259375" />
         <entry key="..\:/Users/samir/Documents/AndroidDev/CMP309/CMP309-NXTrain/app/src/main/res/layout/activity_station.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/samir/Documents/AndroidDev/CMP309/CMP309-NXTrain/app/src/main/res/layout/fragment_live_trains.xml" value="0.259375" />
         <entry key="..\:/Users/samir/Documents/AndroidDev/CMP309/CMP309-NXTrain/app/src/main/res/layout/fragment_profile.xml" value="0.259375" />
@@ -13,8 +15,6 @@
         <entry key="..\:/Users/samir/Documents/AndroidDev/CMP309/CMP309-NXTrain/app/src/main/res/xml/root_preferences.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/samir/StudioProjects/CMP309-NXTrain/app/src/main/res/layout/activity_main.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/samir/StudioProjects/CMP309-NXTrain/app/src/main/res/layout/activity_service_detail.xml" value="0.25" />
-        <entry key="..\:/Users/samir/StudioProjects/CMP309-NXTrain/app/src/main/res/layout/activity_service_detail_stationlist_header.xml" value="0.25" />
-        <entry key="..\:/Users/samir/StudioProjects/CMP309-NXTrain/app/src/main/res/layout/activity_service_detail_stationlist_item.xml" value="0.25" />
         <entry key="..\:/Users/samir/StudioProjects/CMP309-NXTrain/app/src/main/res/layout/activity_station.xml" value="0.264" />
         <entry key="..\:/Users/samir/StudioProjects/CMP309-NXTrain/app/src/main/res/layout/activity_station_search.xml" value="0.25" />
         <entry key="..\:/Users/samir/StudioProjects/CMP309-NXTrain/app/src/main/res/layout/fragment_journeys.xml" value="0.24818840579710144" />

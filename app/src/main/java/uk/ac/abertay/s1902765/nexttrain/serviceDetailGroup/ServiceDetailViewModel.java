@@ -13,6 +13,8 @@ import androidx.lifecycle.AndroidViewModel;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import okhttp3.Credentials;
 import okhttp3.Interceptor;
@@ -26,12 +28,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import uk.ac.abertay.s1902765.nexttrain.RttApi.Location_Service;
 import uk.ac.abertay.s1902765.nexttrain.RttApi.RTTInterface;
 import uk.ac.abertay.s1902765.nexttrain.RttApi.ServiceSearchResult;
+import uk.ac.abertay.s1902765.nexttrain.RttApi.TrainService;
 
 public class ServiceDetailViewModel extends AndroidViewModel implements Observable {
 
     private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
     private String serviceUid;
     private String[] dateSplit;
+    public String ServiceTOC;
     private String AuthUsername = "rttapi_samirichards";
     private String AuthPassword = "dd684f86675dbc290e53f83060bd471a67cc3de3";
     private String API_Endpoint = "https://api.rtt.io/api/v1/";
@@ -52,9 +56,10 @@ public class ServiceDetailViewModel extends AndroidViewModel implements Observab
         notifyChange();
     }
 
-    public void setServiceParams(String _serviceUid, String _serviceDate){
+    public void setServiceParams(String _serviceUid, String _serviceDate, String _serviceTOC){
         serviceUid = _serviceUid;
         dateSplit = _serviceDate.split("-");
+        ServiceTOC = _serviceTOC;
         getService();
     }
 
@@ -71,7 +76,8 @@ public class ServiceDetailViewModel extends AndroidViewModel implements Observab
                         if (response.body() != null){
                             currentService.set(response.body());
                             String titleText = "<b>"+currentService.get().atocName + "</b> service to <b>" + currentService.get().destination.get(0).description+"</b>";
-                            callingPoints.set(currentService.get().locations);
+                            Predicate<Location_Service> isPublic = callingPoint -> callingPoint.isPublicCall == true;
+                            callingPoints.set(currentService.get().locations.stream().filter(isPublic).collect(Collectors.toList()));
                             pageTitle.set(HtmlCompat.fromHtml(titleText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                             isLoading.set(false);
                             isError.set(false);

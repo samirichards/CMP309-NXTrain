@@ -6,10 +6,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <StackView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp">
+            android:layout_margin="4dp"
+            android:orientation="horizontal">
             <!--
             <View
                 android:layout_width="4dp"
@@ -20,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Train is on time bruh chill" />
-        </StackView>
+        </LinearLayout>
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
