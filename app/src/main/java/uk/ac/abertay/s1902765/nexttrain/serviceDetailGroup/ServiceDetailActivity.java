@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
@@ -33,6 +34,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
         binding = ActivityServiceDetailBinding.inflate(getLayoutInflater());
         binding.setServiceDetailViewModel(model);
         headerBinding = ActivityServiceDetailStationlistHeaderBinding.inflate(getLayoutInflater());
+        headerBinding.serviceDetailStationInfoButton.setOnClickListener();
         binding.serviceDetailStationList.addHeaderView(headerBinding.getRoot());
         binding.serviceDetailStationList.setAdapter(new ServiceDetailActivity_StationListAdapter());
         setContentView(binding.getRoot());
@@ -41,6 +43,12 @@ public class ServiceDetailActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         getViewBundledInfo();
+    }
+
+    private View.OnClickListener headerButtonHandeler(){
+        Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_SHORT).show();
+        return;
+        //TODO URGENT Fix this
     }
 
     private void getViewBundledInfo() {

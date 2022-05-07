@@ -5,28 +5,32 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <LinearLayout
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical">
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:orientation="horizontal">
-            <!--
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical">
             <View
                 android:layout_width="4dp"
                 android:layout_height="4dp"
-                android:background="#1EF116"/>
-                -->
+                android:background="#1EF116"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="6dp"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Train is on time bruh chill" />
-        </LinearLayout>
-        <androidx.appcompat.widget.AppCompatButton
+                android:text="On Time"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Widget.Material3.Button.TextButton"
-            android:text="Service Detail"/>
-
+            android:text="Service Detail"
+            android:layout_margin="4dp"
+            android:id="@+id/serviceDetail_stationInfoButton"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
