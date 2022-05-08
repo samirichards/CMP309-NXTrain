@@ -34,7 +34,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
         binding = ActivityServiceDetailBinding.inflate(getLayoutInflater());
         binding.setServiceDetailViewModel(model);
         headerBinding = ActivityServiceDetailStationlistHeaderBinding.inflate(getLayoutInflater());
-        headerBinding.serviceDetailStationInfoButton.setOnClickListener();
+        headerBinding.serviceDetailStationInfoButton.setOnClickListener(new ServiceDetailClickListener());
         binding.serviceDetailStationList.addHeaderView(headerBinding.getRoot());
         binding.serviceDetailStationList.setAdapter(new ServiceDetailActivity_StationListAdapter());
         setContentView(binding.getRoot());
@@ -43,12 +43,6 @@ public class ServiceDetailActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         getViewBundledInfo();
-    }
-
-    private View.OnClickListener headerButtonHandeler(){
-        Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_SHORT).show();
-        return;
-        //TODO URGENT Fix this
     }
 
     private void getViewBundledInfo() {
@@ -61,8 +55,24 @@ public class ServiceDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        if(model.serviceDetailIsOpen.get()){
+            model.setDetailIsOpen(false);
+            return false;
+        }
+        else{
+            onBackPressed();
+            return true;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(model.serviceDetailIsOpen.get()){
+            model.setDetailIsOpen(false);
+        }
+        else{
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -75,6 +85,13 @@ public class ServiceDetailActivity extends AppCompatActivity {
     public static void setStationListAdapterProperties(ListView view, List<Location_Service> items){
         ((ServiceDetailActivity_StationListAdapter)((HeaderViewListAdapter)view.getAdapter()).getWrappedAdapter()).setData(items);
         //((ServiceDetailActivity_StationListAdapter)view.getAdapter()).setData(items);
+    }
+
+    public class ServiceDetailClickListener implements View.OnClickListener {
+        @Override
+        public void onClick (View v) {
+            model.setDetailIsOpen(true);
+        }
     }
 
     class ServiceDetailActivity_StationListAdapter extends BaseAdapter {

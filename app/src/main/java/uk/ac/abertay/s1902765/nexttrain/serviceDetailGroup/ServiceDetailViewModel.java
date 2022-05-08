@@ -47,12 +47,14 @@ public class ServiceDetailViewModel extends AndroidViewModel implements Observab
     public ObservableField<ServiceSearchResult> currentService = new ObservableField<>();
     public ObservableField<Spanned> pageTitle = new ObservableField<>();
     public ObservableField<List<Location_Service>> callingPoints = new ObservableField<>();
+    public ObservableBoolean serviceDetailIsOpen = new ObservableBoolean();
 
     public ServiceDetailViewModel(@NonNull Application application) {
         super(application);
         httpClient = new OkHttpClient().newBuilder().addInterceptor(new uk.ac.abertay.s1902765.nexttrain.serviceDetailGroup.BasicAuthInterceptor(AuthUsername, AuthPassword)).build();
         retrofitClient = new Retrofit.Builder().baseUrl(API_Endpoint).addConverterFactory(GsonConverterFactory.create()).client(httpClient).build();
         api = retrofitClient.create(RTTInterface.class);
+        serviceDetailIsOpen.set(false);
         notifyChange();
     }
 
@@ -61,6 +63,11 @@ public class ServiceDetailViewModel extends AndroidViewModel implements Observab
         dateSplit = _serviceDate.split("-");
         ServiceTOC = _serviceTOC;
         getService();
+    }
+
+    public void setDetailIsOpen(Boolean value){
+        serviceDetailIsOpen.set(value);
+        notifyChange();
     }
 
     public void getService(){
