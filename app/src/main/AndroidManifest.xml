@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="uk.ac.abertay.s1902765.nexttrain" >
+    package="uk.ac.abertay.s1902765.nexttrain">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -13,7 +13,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
-        android:theme="@style/Theme.NextTrain" >
+        android:theme="@style/Theme.NextTrain">
+        <activity
+            android:name=".journeysGroup.AddJourneyActivity"
+            android:exported="false" />
         <activity
             android:name=".serviceDetailGroup.ServiceDetailActivity"
             android:exported="false" />
@@ -23,7 +26,7 @@
         <activity
             android:name=".StationSearchActivity"
             android:exported="false"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -35,7 +38,7 @@
         <activity
             android:name=".SettingsActivity"
             android:exported="false"
-            android:label="@string/title_activity_settings" >
+            android:label="@string/title_activity_settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -46,7 +49,7 @@
             android:screenOrientation="portrait" /> <!-- TODO Remove fixed screen orientation and make the activity just work regardless of rotation (use a viewmodel and such) -->
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
