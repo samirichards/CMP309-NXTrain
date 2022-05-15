@@ -1,36 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="stationSearchModel"
             type="uk.ac.abertay.s1902765.nexttrain.StationSearchActivity_ViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".StationSearchActivity">
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/stationSearchViewWidget"
+            android:id="@+id/stationSearch_searchField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="4dp"
+            app:iconifiedByDefault="false"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:queryHint="@string/searchStations" />
+            app:layout_constraintTop_toBottomOf="parent"
+            app:queryHint="@string/searchStations"></androidx.appcompat.widget.SearchView>
+
+        <Button
+            android:id="@+id/stationSearch_nearestStationButton"
+            style="@style/Widget.Material3.Button.TonalButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="@{stationSearchModel.nearestStationButtonEnabled}"
+            android:text="@{stationSearchModel.nearestButtonDisplayText}"
+            app:icon="@drawable/ic_baseline_near_me_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/stationSearch_searchField" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/stationSearchResultsRecyclerView"
+            android:id="@+id/stationSearch_searchRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layoutAnimation="@anim/nav_default_pop_enter_anim"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stationSearchViewWidget" />
+            app:layout_constraintTop_toBottomOf="@+id/stationSearch_searchField"
+            data="@{stationSearchModel.stations}"
+            tools:listitem="@layout/station_searchitem_layout"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:visibility="gone"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

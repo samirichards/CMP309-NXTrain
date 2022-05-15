@@ -17,6 +17,7 @@ public class AddJourneyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         model = new ViewModelProvider(this).get(AddJourneyActivityViewmodel.class);
         binding = ActivityAddJourneyBinding.inflate(getLayoutInflater());
+        binding.setLifecycleOwner(this);
         binding.setViewmodel(model);
 
         setContentView(binding.getRoot());
